@@ -1,50 +1,22 @@
-# Welcome to your Expo app 👋
+# CS50 Final Project - Meal Planner
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Technologies
 
-## Get started
+- React Native (expo)
+- TypeScript
+- SQLite
 
-1. Install dependencies
+I wanted to build on my existing React knowledge and have a go at using React Native, which is a technology built with JavaScript for developing Mobile Applications and can work with both Android and IOs devices.
 
-   ```bash
-   npm install
-   ```
+React Native uses components similar to React but instead of being synactical sugar to represent HTML in JSX, it represents native mobile components because mobile applications don't render HTML and CSS like web browsers but React Native provides these Native tags and stylesheets that are familiar to web developers.
 
-2. Start the app
+I also took this project as a good opportunity to practive some graphic design skills, so I've premade designs of what I'd like the app to look like first and tries to create my own SVGs for icons using figma and Inkscape.
 
-   ```bash
-    npx expo start
-   ```
+## Use case
 
-In the output, you'll find options to open the app in a
+The application is a meal planning app, where a user can create their own custom recipes and add them to a meal calendar. There is also a shopping list to keep track of what food needs to be bought for each week.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+# TODO/IDEAS
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Icons - outlined default and filled when clicked.
+- Calorie count - add up calories of each ingredients for recipes and weekly totals

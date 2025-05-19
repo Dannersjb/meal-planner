@@ -1,14 +1,45 @@
-import { View, type ViewProps } from 'react-native';
+import { View, ViewStyle, StyleProp, useColorScheme } from "react-native";
+import { Colours } from "../constants/Globals";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+//import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useThemeColor } from '@/hooks/useThemeColor';
+type ThemedViewProps = React.PropsWithChildren<{
+  style?: StyleProp<ViewStyle>;
+  safe?: boolean;
+}>;
 
-export type ThemedViewProps = ViewProps & {
-  lightColor?: string;
-  darkColor?: string;
+const ThemedView: React.FC<ThemedViewProps> = ({ style, safe = false, ...props }) => {
+  const colourScheme = useColorScheme();
+  const theme = Colours[colourScheme ?? "light"];
+
+  if (!safe)
+    return (
+      <View
+        style={[
+          {
+            backgroundColor: theme.backgroundColour,
+          },
+          style,
+        ]}
+        {...props}
+      />
+    );
+
+  const insets = useSafeAreaInsets();
+
+  return (
+    <View
+      style={[
+        {
+          backgroundColor: theme.backgroundColour,
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+        style,
+      ]}
+      {...props}
+    />
+  );
 };
 
-export function ThemedView({ style, lightColor, darkColor, ...otherProps }: ThemedViewProps) {
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
-
-  return <View style={[{ backgroundColor }, style]} {...otherProps} />;
-}
+export default ThemedView;
