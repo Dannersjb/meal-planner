@@ -20,8 +20,8 @@ export default function HomeScreen() {
         name="YearView"
         component={YearView}
         options={{
-          headerShown: false, // or true if needed
-          title: "", // make sure it's empty so it won't be reused
+          headerShown: false,
+          title: "",
         }}
       />
       <Stack.Screen
@@ -29,7 +29,7 @@ export default function HomeScreen() {
         component={WeekView}
         options={{
           title: "Week Overview",
-          headerBackTitle: "", // (not effective in native-stack, but harmless)
+          headerBackTitle: "",
         }}
       />
     </Stack.Navigator>

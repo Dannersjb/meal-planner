@@ -1,11 +1,4 @@
-import {
-  Modal,
-  ScrollView,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Modal, ScrollView, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,7 +6,6 @@ import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedView from "@/components/ThemedView";
 import ThemedOverlayView from "@/components/ThemedOverlayView";
 import AddRecipeForm from "@/components/forms/AddRecipeForm";
-import { Colours } from "@/constants/Globals";
 import ThemedText from "@/components/ThemedText";
 import IngredientsList from "@/components/IngredientsList";
 import ThemedAccordion from "@/components/ThemedAccordion";
@@ -26,9 +18,6 @@ type Recipe = {
 };
 
 const RecipesView = () => {
-  const colourScheme = useColorScheme();
-  const theme = Colours[colourScheme ?? "light"];
-
   const db = useDatabase();
   const navigation = useNavigation();
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);

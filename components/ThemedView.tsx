@@ -17,6 +17,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({ style, safe = false, ...props }
         style={[
           {
             backgroundColor: theme.backgroundColour,
+            flex: 1,
           },
           style,
         ]}

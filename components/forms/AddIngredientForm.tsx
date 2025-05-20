@@ -1,5 +1,4 @@
-import { ViewStyle, StyleProp, useColorScheme, Alert } from "react-native";
-import { Colours } from "@/constants/Globals";
+import { ViewStyle, StyleProp, Alert } from "react-native";
 import ThemedTextInput from "@/components/ThemedTextInput";
 import ThemedButton from "@/components/ThemedButton";
 import { useState } from "react";
@@ -14,8 +13,6 @@ type ThemedViewProps = React.PropsWithChildren<{
 }>;
 
 const AddIngredientForm: React.FC<ThemedViewProps> = ({ onItemAdded, recipeId }) => {
-  const colourScheme = useColorScheme();
-  const theme = Colours[colourScheme ?? "light"];
   const db = useDatabase();
   const [openPicker, setOpenPicker] = useState(false);
   const [name, setName] = useState("");
@@ -61,7 +58,7 @@ const AddIngredientForm: React.FC<ThemedViewProps> = ({ onItemAdded, recipeId })
         [recipeId, ingredientId, quantity, selectedUnit]
       );
       setName(""); // Clear input
-      onItemAdded?.(); // Trigger callback to update list or close modal
+      onItemAdded?.(); // Trigger callback to update list and close modal
     } catch (error) {
       console.error("Failed to insert item:", error);
       Alert.alert("Error ingredient to recipe.");

@@ -19,7 +19,6 @@ import AddMealForm from "@/components/forms/AddMealForm";
 
 type MealsListProps = React.PropsWithChildren<{
   scheduledDate: string | null;
-  onAddIngredientPress?: () => void;
   style?: StyleProp<TextStyle>;
 }>;
 
@@ -28,7 +27,7 @@ type Recipe = {
   name: string;
 };
 
-const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate, onAddIngredientPress }) => {
+const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];

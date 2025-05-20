@@ -1,4 +1,3 @@
-import { useColorScheme } from "react-native";
 import { Colours } from "@/constants/Globals";
 import DropDownPicker, { DropDownPickerProps } from "react-native-dropdown-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,9 +6,6 @@ const ThemedDropDownPicker = <T extends string | number | boolean>({
   style,
   ...props
 }: DropDownPickerProps<T>) => {
-  const colourScheme = useColorScheme();
-  const theme = Colours[colourScheme ?? "light"];
-
   return (
     <DropDownPicker
       {...props}

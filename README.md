@@ -60,6 +60,8 @@ To start the application you will either need to:
 - **app/** — Tab navigation pages which include views for each page
 - **assets/** — Contains custom fonts, svgs and images
 - **components/** — Reusable UI components and themed comoponents
+- **components/forms** — User forms to add data to the database
+- **components/icons** — Converted SVG icons into React Native components
 - **constants/** — Contains global variables for themes and helper functions
 - **db/** — Contains database designs and schema
 - **providers/** — Reusable react providers
@@ -74,4 +76,4 @@ See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/desig
 
 ## Notes
 
-- I used ChatGPT to help me find icons quicker, search for functions in libraries, confirm database calls were correct and general debugging.
+- I used ChatGPT to help me find icons quicker, generate my SVGs into native components, search for functions in libraries, confirm database calls were correct and general debugging.

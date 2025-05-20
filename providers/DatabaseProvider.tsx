@@ -5,6 +5,7 @@ const DatabaseContext = createContext<SQLiteDatabase | null>(null);
 
 const db = openDatabaseSync("mealPlanner.db");
 
+// create sql tables if they don't already exist
 const initializeDatabase = () => {
   try {
     db.execSync(`
@@ -62,7 +63,7 @@ export const DatabaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   return <DatabaseContext.Provider value={db}>{children}</DatabaseContext.Provider>;
 };
 
-// Custom hook to use the Database context
+// Custom hook to use the Database context around the app
 export const useDatabase = () => {
   const context = useContext(DatabaseContext);
   if (!context) {

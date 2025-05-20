@@ -1,3 +1,4 @@
+// Used chatGPT to generate these SVG components from my icons
 import Svg, { G, Circle, Path } from "react-native-svg";
 
 type Props = {

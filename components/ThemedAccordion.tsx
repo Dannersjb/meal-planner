@@ -32,7 +32,7 @@ const ThemedAccordion = <T extends { name: string }>({
     }
   }, [props.sections, renderContent, defaultActiveSectionIndex]);
 
-  const defaultRenderHeader = (section: T, index: number, isActive: boolean) => {
+  const defaultRenderHeader = (section: T, _index: number, isActive: boolean) => {
     return (
       <View
         style={[
@@ -58,6 +58,7 @@ const ThemedAccordion = <T extends { name: string }>({
     );
   };
 
+  // return nothing if renderContent is not set
   if (!renderContent) return null;
 
   return (

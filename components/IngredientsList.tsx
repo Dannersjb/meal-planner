@@ -19,7 +19,6 @@ import AddIngredientForm from "@/components/forms/AddIngredientForm";
 
 type IngredientsListProps = React.PropsWithChildren<{
   recipeId: number | null;
-  onAddIngredientPress?: () => void;
   style?: StyleProp<TextStyle>;
 }>;
 
@@ -30,11 +29,7 @@ type Ingredient = {
   unit: string;
 };
 
-const IngredientsList: React.FC<IngredientsListProps> = ({
-  style,
-  recipeId,
-  onAddIngredientPress,
-}) => {
+const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId }) => {
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -118,7 +113,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({
             <AddIngredientForm
               onItemAdded={() => {
                 setIngredientModalVisible(false); // close modal
-                refreshIngredientsList();
+                refreshIngredientsList(); // update the list render
               }}
               recipeId={recipeId}
             />

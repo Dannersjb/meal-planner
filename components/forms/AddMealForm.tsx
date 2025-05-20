@@ -1,5 +1,4 @@
-import { ViewStyle, StyleProp, useColorScheme, Alert } from "react-native";
-import { Colours } from "@/constants/Globals";
+import { ViewStyle, StyleProp, Alert } from "react-native";
 import ThemedButton from "@/components/ThemedButton";
 import { useEffect, useState } from "react";
 import ThemedText from "@/components/ThemedText";
@@ -18,8 +17,6 @@ type Recipe = {
 };
 
 const AddMealForm: React.FC<ThemedViewProps> = ({ style, onItemAdded, children, ...props }) => {
-  const colourScheme = useColorScheme();
-  const theme = Colours[colourScheme ?? "light"];
   const [openPicker, setOpenPicker] = useState(false);
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);
   const [selectedRecipe, setRecipe] = useState("");
@@ -50,7 +47,7 @@ const AddMealForm: React.FC<ThemedViewProps> = ({ style, onItemAdded, children, 
         selectedRecipe,
       ]);
       setRecipe(""); // Clear input
-      onItemAdded?.(); // Trigger callback to update list or close modal
+      onItemAdded?.(); // Trigger callback to update list and close modal
     } catch (error) {
       console.error("Failed to add recipe to meal plan:", error);
       Alert.alert("Error adding recipe to meal plan.");
@@ -64,8 +61,8 @@ const AddMealForm: React.FC<ThemedViewProps> = ({ style, onItemAdded, children, 
         open={openPicker}
         value={selectedRecipe}
         items={recipeList.map((recipe) => ({
-          label: recipe.name, // Use the recipe name for the label
-          value: recipe.id.toString(), // Convert the recipe ID to a string for the value
+          label: recipe.name,
+          value: recipe.id.toString(),
         }))}
         setOpen={setOpenPicker}
         setValue={setRecipe}
