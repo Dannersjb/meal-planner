@@ -18,4 +18,5 @@ The application is a meal planning app, where a user can create their own custom
 
 ## SQLite Database Design
 
+![DB Design](db/design.png)
 See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/design.md) for a visual/table summary.
