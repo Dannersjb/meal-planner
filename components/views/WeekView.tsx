@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ScrollView, View, StyleSheet, useColorScheme } from "react-native";
+import { ScrollView, View, StyleSheet, useColorScheme, Pressable, Alert } from "react-native";
 import ThemedAccordion from "@/components/ThemedAccordion";
 import ThemedText from "@/components/ThemedText";
 import { formatDateWithOrdinal, getWeeksForMonth } from "@/constants/Helper";
@@ -27,7 +27,7 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
   const { monthIndex, monthName, year } = route.params;
   const weeks = getWeeksForMonth(monthIndex, year);
   const db = useDatabase();
-  const [completionStatus, setCompletionStatus] = useState<boolean[]>([]); // Array to track completion for each week
+  const [completionStatus, setCompletionStatus] = useState<boolean[]>([]);
 
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -71,6 +71,53 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
     setCompletionStatus(newCompletionStatus); // Update completion status for each week
   }, []);
 
+  const addWeekToShoppingList = (week: (Date | null)[]) => {
+    const addedIngredients = new Set<string>();
+
+    for (const day of week) {
+      if (!day) continue;
+
+      const scheduledDate = day.toISOString().split("T")[0];
+
+      // Step 1: Get all recipe IDs for the day
+      const recipes = db.getAllSync<{ recipe_id: number }>(
+        `SELECT recipe_id FROM meal_plan WHERE scheduled_date = ?`,
+        [scheduledDate]
+      );
+
+      for (const { recipe_id } of recipes) {
+        // Step 2: Get ingredient names for the recipe
+        const ingredients = db.getAllSync<{ name: string }>(
+          `SELECT ingredients.name 
+             FROM recipe_ingredients 
+             JOIN ingredients ON ingredients.id = recipe_ingredients.ingredient_id 
+             WHERE recipe_ingredients.recipe_id = ?`,
+          [recipe_id]
+        );
+
+        for (const { name } of ingredients) {
+          // Step 3: Only add if it's not already in shopping_list
+          if (!addedIngredients.has(name)) {
+            const exists = db.getFirstSync<{ count: number }>(
+              `SELECT COUNT(*) as count FROM shopping_list WHERE item_name = ?`,
+              [name]
+            );
+
+            if (!exists || exists.count === 0) {
+              db.runSync(
+                `INSERT INTO shopping_list (item_name, item_order) 
+                   VALUES (?, (SELECT IFNULL(MAX(item_order), 0) + 1 FROM shopping_list))`,
+                [name]
+              );
+              addedIngredients.add(name);
+            }
+          }
+        }
+      }
+    }
+    Alert.alert("Shopping List Updated", "Ingredients added to your shopping list.");
+  };
+
   return (
     <ScrollView
       contentContainerStyle={[styles.container, { backgroundColor: theme.backgroundColour }]}
@@ -112,6 +159,16 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
               />
             );
           })}
+          <Pressable
+            style={[
+              styles.addButton,
+              { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
+            ]}
+            onPress={() => addWeekToShoppingList(week)}
+          >
+            <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
+            <Ionicons name="cart" size={42} color={Colours.primary} />
+          </Pressable>
         </View>
       ))}
     </ScrollView>
@@ -133,11 +190,20 @@ const styles = StyleSheet.create({
   },
   weekTitle: {
     fontSize: 24,
-    fontWeight: "bold",
   },
   mealContent: {
-    //padding: 10,
     borderRadius: 8,
+  },
+  addButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

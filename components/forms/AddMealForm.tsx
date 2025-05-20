@@ -24,7 +24,6 @@ const AddMealForm: React.FC<ThemedViewProps> = ({ style, onItemAdded, children, 
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);
   const [selectedRecipe, setRecipe] = useState("");
   const db = useDatabase();
-  const [name, setName] = useState("");
 
   useEffect(() => {
     try {
@@ -60,9 +59,7 @@ const AddMealForm: React.FC<ThemedViewProps> = ({ style, onItemAdded, children, 
 
   return (
     <>
-      <ThemedText style={[{ fontSize: 24, fontWeight: 900, marginBottom: 15 }]}>
-        Add Meal:
-      </ThemedText>
+      <ThemedText style={[{ fontSize: 24, marginBottom: 15 }]}>Add Meal:</ThemedText>
       <ThemedDropDownPicker
         open={openPicker}
         value={selectedRecipe}

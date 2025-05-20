@@ -18,7 +18,7 @@ const RootLayout = () => {
   //   use this to conditionally style dark or light mode
   const theme = Colours[colorScheme] ?? Colours.light;
   const [fontsLoaded] = useFonts({
-    "Comfortaa-Regular": require("../assets/fonts/Comfortaa/Comfortaa-VariableFont_wght.ttf"),
+    "Comfortaa-Regular": require("../assets/fonts/Comfortaa/static/Comfortaa-Regular.ttf"),
     "Comfortaa-Bold": require("../assets/fonts/Comfortaa/static/Comfortaa-Bold.ttf"),
   });
 
@@ -40,7 +40,6 @@ const RootLayout = () => {
             headerTitleStyle: {
               fontFamily: Colours.fontFamily,
               color: "#FFF",
-              fontWeight: 700,
               fontSize: 32,
             },
             headerTitleAlign: "left",
@@ -53,11 +52,11 @@ const RootLayout = () => {
             },
             tabBarIconStyle: {
               height: 80,
-              marginVertical: 0,
+              marginBottom: -6,
+              marginTop: 3,
             },
             tabBarLabelStyle: {
               fontFamily: Colours.fontFamily,
-              fontWeight: 700,
               fontSize: 18,
               flex: 1,
             },

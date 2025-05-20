@@ -21,6 +21,7 @@ const ThemedOverlayView: React.FC<ThemedViewProps> = ({ style, children, ...prop
       style={[
         {
           flex: 1,
+          width: "100%",
           justifyContent: "center",
           backgroundColor: "rgba(0,0,0,0.5)",
         },
@@ -32,6 +33,7 @@ const ThemedOverlayView: React.FC<ThemedViewProps> = ({ style, children, ...prop
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
           flex: 1,
+          width: "100%",
           justifyContent: "flex-end",
         }}
       >

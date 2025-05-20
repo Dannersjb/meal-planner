@@ -103,7 +103,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({
         ]}
         onPress={() => setIngredientModalVisible(true)}
       >
-        <ThemedText style={{ fontSize: 18 }}>Add Ingredient</ThemedText>
+        <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Ingredient</ThemedText>
         <Ionicons name="add-circle" size={42} color={Colours.primary} />
       </Pressable>
 

@@ -42,7 +42,7 @@ const initializeDatabase = () => {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           recipe_id INTEGER NOT NULL,
           scheduled_date TEXT NOT NULL,
-          meal_type TEXT, -- optional: 'breakfast', 'lunch', 'dinner'
+          meal_type TEXT,
           FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
         );
       `);

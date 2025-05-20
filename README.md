@@ -16,7 +16,6 @@ I also took this project as a good opportunity to practive some graphic design s
 
 The application is a meal planning app, where a user can create their own custom recipes and add them to a meal calendar. There is also a shopping list to keep track of what food needs to be bought for each week.
 
-# TODO/IDEAS
+## SQLite Database Design
 
-- Icons - outlined default and filled when clicked.
-- Calorie count - add up calories of each ingredients for recipes and weekly totals
+See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/design.md) for a visual/table summary.

@@ -32,42 +32,46 @@ const ThemedAccordion = <T extends { name: string }>({
     }
   }, [props.sections, renderContent, defaultActiveSectionIndex]);
 
-  const defaultRenderHeader = (section: T, index: number, isActive: boolean) => (
-    <View
-      style={[
-        styles.header,
-        {
-          backgroundColor: theme.backgroundColour,
-          borderColor: theme.borderColour,
-        },
-      ]}
-    >
-      <ThemedText
+  const defaultRenderHeader = (section: T, index: number, isActive: boolean) => {
+    return (
+      <View
         style={[
-          subSection ? styles.subTitle : styles.title,
-          { fontFamily: Colours.fontFamilyBold },
+          styles.header,
+          {
+            backgroundColor: theme.backgroundColour,
+            borderColor: theme.borderColour,
+          },
         ]}
       >
-        {section.name}
-      </ThemedText>
-      <View style={{ transform: [{ rotate: isActive ? "0deg" : "270deg" }] }}>
-        <Ionicons name="chevron-down" size={32} color={Colours.primary} />
+        <ThemedText
+          style={[
+            subSection ? styles.subTitle : styles.title,
+            { fontFamily: Colours.fontFamilyBold },
+          ]}
+        >
+          {section.name}
+        </ThemedText>
+        <View style={{ transform: [{ rotate: isActive ? "0deg" : "270deg" }] }}>
+          <Ionicons name="chevron-down" size={32} color={Colours.primary} />
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   if (!renderContent) return null;
 
   return (
     <View style={!subSection && { paddingHorizontal: 20, marginVertical: 20 }}>
-      <Accordion
-        {...props}
-        activeSections={activeSections}
-        onChange={setActiveSections}
-        renderHeader={renderHeader ?? defaultRenderHeader}
-        renderContent={renderContent}
-        underlayColor="transparent"
-      />
+      <View style={{ borderBottomWidth: 1, borderColor: theme.borderColour }}>
+        <Accordion
+          {...props}
+          activeSections={activeSections}
+          onChange={setActiveSections}
+          renderHeader={renderHeader ?? defaultRenderHeader}
+          renderContent={renderContent}
+          underlayColor="transparent"
+        />
+      </View>
     </View>
   );
 };

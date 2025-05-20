@@ -18,6 +18,14 @@ describe("<ShopListView>", () => {
     });
   });
 
+  it("displays correct message when the shop list is empty", () => {
+    // return empty list before render
+    mockGetAllSync.mockReturnValue([]);
+
+    const shopList = render(<ShopListView />);
+    expect(shopList.getByText("No shopping.")).toBeTruthy();
+  });
+
   it("Shopping list gets populated and toggles checkboxes", async () => {
     const mockShoplist = [
       { id: 1, item_name: "Apples", item_order: 1, quantity: 1, is_checked: false },
@@ -44,5 +52,3 @@ describe("<ShopListView>", () => {
     expect(shopList.getByText("checkmark-circle")).toBeTruthy();
   });
 });
-
-//it("check you can open the modal")

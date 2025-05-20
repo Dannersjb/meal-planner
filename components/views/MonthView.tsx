@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
   },
   month: {
     width: "31%",
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
     alignItems: "center",
     borderWidth: 2,
     borderRadius: 10,

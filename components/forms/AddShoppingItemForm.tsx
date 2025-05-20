@@ -2,7 +2,7 @@ import { ViewStyle, StyleProp, useColorScheme, Alert } from "react-native";
 import { Colours } from "@/constants/Globals";
 import ThemedTextInput from "../ThemedTextInput";
 import ThemedButton from "../ThemedButton";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ThemedText from "../ThemedText";
 import { useDatabase } from "@/providers/DatabaseProvider";
 
@@ -50,9 +50,7 @@ const AddShoppingItemForm: React.FC<ThemedViewProps> = ({
 
   return (
     <>
-      <ThemedText style={[{ fontSize: 24, fontWeight: 900, marginBottom: 15 }]}>
-        Add Shopping:
-      </ThemedText>
+      <ThemedText style={[{ fontSize: 24, marginBottom: 15 }]}>Add Shopping:</ThemedText>
       <ThemedTextInput autoFocus placeholder="Product Name" value={name} onChangeText={setName} />
       <ThemedButton onPress={handleSubmit}>Add Product</ThemedButton>
     </>

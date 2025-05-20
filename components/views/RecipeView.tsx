@@ -71,13 +71,23 @@ const RecipesView = () => {
 
   return (
     <ThemedView>
-      <ScrollView>
-        <ThemedAccordion
-          sections={recipeList}
-          renderContent={renderRecipeContent}
-          defaultActiveSectionIndex={null}
-        />
-      </ScrollView>
+      {recipeList.length === 0 ? (
+        <View
+          style={{
+            paddingVertical: 60,
+          }}
+        >
+          <ThemedText style={{ textAlign: "center", fontSize: 18 }}>No recipes found.</ThemedText>
+        </View>
+      ) : (
+        <ScrollView>
+          <ThemedAccordion
+            sections={recipeList}
+            renderContent={renderRecipeContent}
+            defaultActiveSectionIndex={null}
+          />
+        </ScrollView>
+      )}
 
       <Modal
         visible={recipeModalVisible}

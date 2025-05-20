@@ -70,9 +70,7 @@ const AddIngredientForm: React.FC<ThemedViewProps> = ({ onItemAdded, recipeId })
 
   return (
     <>
-      <ThemedText style={[{ fontSize: 24, fontWeight: 900, marginBottom: 15 }]}>
-        Add Ingredient:
-      </ThemedText>
+      <ThemedText style={[{ fontSize: 24, marginBottom: 15 }]}>Add Ingredient:</ThemedText>
       <ThemedTextInput
         autoFocus
         placeholder="Ingredient Name"

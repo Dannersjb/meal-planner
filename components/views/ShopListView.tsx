@@ -1,13 +1,16 @@
 import {
+  Alert,
   Modal,
-  StyleSheet,
+  Pressable,
   TouchableOpacity,
   TouchableWithoutFeedback,
   useColorScheme,
+  StyleSheet,
   View,
+  FlatList,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useNavigation } from "expo-router";
+import { useFocusEffect, useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 
@@ -34,12 +37,19 @@ const ShopListView = () => {
   const navigation = useNavigation();
 
   const [shoppingList, setShoppingList] = useState<ShoppingItem[]>([]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [shopModalVisible, setShopModalVisible] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // refresh shop list when tab is focused
+      refreshShoppingList();
+    }, [])
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={{ marginRight: 20 }}>
+        <TouchableOpacity onPress={() => setShopModalVisible(true)} style={{ marginRight: 20 }}>
           <Ionicons name="add-circle" size={42} color="#FFF" />
         </TouchableOpacity>
       ),
@@ -68,6 +78,33 @@ const ShopListView = () => {
     }
   };
 
+  const deleteShopping = () => {
+    try {
+      db.runSync("DELETE FROM shopping_list WHERE is_checked = true;");
+      refreshShoppingList();
+    } catch (error) {
+      console.error("Failed to delete shopping items:", error);
+      Alert.alert("Error deleting shopping items.");
+    }
+  };
+
+  const confirmDeleteChecked = () => {
+    Alert.alert(
+      "Delete Checked Items",
+      "Are you sure you want to delete all checked shopping items?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            deleteShopping();
+          },
+        },
+      ]
+    );
+  };
+
   const toggleCheck = (key: number) => {
     try {
       setShoppingList((prev) =>
@@ -88,64 +125,64 @@ const ShopListView = () => {
 
   return (
     <ThemedView>
-      <DraggableFlatList
-        data={shoppingList}
-        style={{ paddingHorizontal: 20, marginVertical: 20 }}
-        keyExtractor={(item) => item.id.toString()}
-        activationDistance={0}
-        onDragEnd={({ data }) => {
-          setShoppingList(data);
-          // Update the itemOrder in the database
-          data.forEach((item, index) => {
-            db.runSync("UPDATE shopping_list SET item_order = ? WHERE id = ?", [
-              index + 1,
-              item.id,
-            ]);
-          });
-        }}
-        renderItem={({ item, drag, isActive }: RenderItemParams<ShoppingItem>) => (
-          <View
-            style={[
-              styles.shopItem,
-              {
-                backgroundColor: theme.backgroundColour,
-                borderColor: theme.borderColour,
-              },
-            ]}
-          >
-            <TouchableOpacity style={styles.leftSide} onPress={() => toggleCheck(item.id)}>
-              <Ionicons
-                name={item.is_checked ? "checkmark-circle" : "ellipse-outline"}
-                size={32}
-                color={item.is_checked ? Colours.primary : theme.iconColour}
-              />
-              <ThemedText style={styles.name}>{item.item_name}</ThemedText>
-            </TouchableOpacity>
-            <View pointerEvents="box-only">
-              <TouchableOpacity
-                onPressIn={drag}
-                disabled={isActive}
-                style={[isActive && { backgroundColor: "#eee" }]}
-              >
-                <Ionicons name="reorder-three-outline" size={42} color={theme.iconColour} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-      />
+      {shoppingList.length === 0 ? (
+        <View
+          style={{
+            paddingVertical: 60,
+          }}
+        >
+          <ThemedText style={{ textAlign: "center", fontSize: 18 }}>No shopping.</ThemedText>
+        </View>
+      ) : (
+        <>
+          <FlatList<ShoppingItem>
+            data={shoppingList}
+            style={{ paddingHorizontal: 20, marginTop: 20, marginBottom: 5 }}
+            keyExtractor={(item: { id: { toString: () => any } }) => item.id.toString()}
+            renderItem={({ item }) => {
+              const isFirst = item.id === shoppingList[0]?.id;
 
+              return (
+                <View
+                  style={[
+                    styles.shopItem,
+                    {
+                      backgroundColor: theme.backgroundColour,
+                      borderColor: theme.borderColour,
+                      borderTopWidth: isFirst ? 1 : 0,
+                    },
+                  ]}
+                >
+                  <TouchableOpacity style={styles.leftSide} onPress={() => toggleCheck(item.id)}>
+                    <Ionicons
+                      name={item.is_checked ? "checkmark-circle" : "ellipse-outline"}
+                      size={32}
+                      color={item.is_checked ? Colours.primary : theme.iconColour}
+                    />
+                    <ThemedText style={styles.name}>{item.item_name}</ThemedText>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+          <Pressable style={[styles.deleteButton]} onPress={confirmDeleteChecked}>
+            <ThemedText style={{ fontSize: 18, color: "#D94A38" }}>Delete Checked</ThemedText>
+            <Ionicons name="trash-outline" size={36} color="#D94A38" />
+          </Pressable>
+        </>
+      )}
       <Modal
-        visible={modalVisible}
-        animationType="fade"
+        visible={shopModalVisible}
         transparent
-        onRequestClose={() => setModalVisible(false)}
+        animationType="fade"
+        onRequestClose={() => setShopModalVisible(false)}
       >
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+        <TouchableWithoutFeedback onPress={() => setShopModalVisible(false)}>
           <ThemedOverlayView>
             <AddShoppingItemForm
               onItemAdded={() => {
                 refreshShoppingList(); // refresh list
-                setModalVisible(false); // close modal
+                setShopModalVisible(false); // close modal
               }}
             />
           </ThemedOverlayView>
@@ -161,16 +198,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    borderTopWidth: 1,
+    borderBottomWidth: 1,
   },
   leftSide: {
     flexDirection: "row",
     alignItems: "center",
   },
+  deleteButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    margin: 20,
+    borderWidth: 2,
+    borderColor: "#D94A38",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   name: {
     fontSize: 18,
     marginLeft: 15,
-    fontWeight: "bold",
   },
 });
 

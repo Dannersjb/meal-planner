@@ -2,7 +2,7 @@ import { ViewStyle, StyleProp, useColorScheme, Alert } from "react-native";
 import { Colours } from "@/constants/Globals";
 import ThemedTextInput from "../ThemedTextInput";
 import ThemedButton from "../ThemedButton";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ThemedText from "../ThemedText";
 import { useDatabase } from "@/providers/DatabaseProvider";
 
@@ -40,9 +40,7 @@ const AddRecipeForm: React.FC<ThemedViewProps> = ({ style, onItemAdded, children
 
   return (
     <>
-      <ThemedText style={[{ fontSize: 24, fontWeight: 900, marginBottom: 15 }]}>
-        Add Recipe:
-      </ThemedText>
+      <ThemedText style={[{ fontSize: 24, marginBottom: 15 }]}>Add Recipe:</ThemedText>
       <ThemedTextInput autoFocus placeholder="Recipe Name" value={name} onChangeText={setName} />
       <ThemedButton onPress={handleSubmit}>Add Recipe</ThemedButton>
     </>
