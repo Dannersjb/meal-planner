@@ -1,8 +1,8 @@
 import { useColorScheme, View, StyleSheet } from "react-native";
-import { Colours } from "../constants/Globals";
+import { Colours } from "@/constants/Globals";
 import { Ionicons } from "@expo/vector-icons";
 import Accordion, { AccordionProps } from "react-native-collapsible/Accordion";
-import ThemedText from "./ThemedText";
+import ThemedText from "@/components/ThemedText";
 import { useEffect, useState } from "react";
 
 const ThemedAccordion = <T extends { name: string }>({

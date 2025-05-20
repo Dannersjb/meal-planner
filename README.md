@@ -1,22 +1,77 @@
 # CS50 Final Project - Meal Planner
 
-## Technologies
+#### Video Demo: <URL HERE>
 
-- React Native (expo)
-- TypeScript
-- SQLite
+#### Description:
 
-I wanted to build on my existing React knowledge and have a go at using React Native, which is a technology built with JavaScript for developing Mobile Applications and can work with both Android and IOs devices.
+This **React Native** mobile application is a meal planner, where a user can:
 
-React Native uses components similar to React but instead of being synactical sugar to represent HTML in JSX, it represents native mobile components because mobile applications don't render HTML and CSS like web browsers but React Native provides these Native tags and stylesheets that are familiar to web developers.
+- Create their own custom recipes
+- Add recipes to a meal calendar for the year
+- Add and delete from a shopping list
+- Add shopping items for an entire week of planned recipes
 
-I also took this project as a good opportunity to practive some graphic design skills, so I've premade designs of what I'd like the app to look like first and tries to create my own SVGs for icons using figma and Inkscape.
+The goal was to build on my existing React knowledge and explore mobile development using React Native — a JavaScript-based framework for developing native apps on both Android and iOS.
 
-## Use case
+React Native components mirror the structure of traditional React components but target native UI elements instead of web-based HTML/CSS.
 
-The application is a meal planning app, where a user can create their own custom recipes and add them to a meal calendar. There is also a shopping list to keep track of what food needs to be bought for each week.
+Additionally, I took this project as an opportunity to practice graphic design skills. I designed UI layouts in **Figma**, created custom SVG icons using **Inkscape**, and incorporated them into the app.
+
+---
+
+## Technologies Used
+
+- **React Native** (using expo)
+- **TypeScript**
+- **SQLite**
+- **Figma** and **Inkscape** for design
+
+---
+
+## Design Decisions
+
+### Designs
+
+- I created premade visual designs to help me to better understand what I was making throughout development
+
+### Database:
+
+- Ingredients and recipe tables were normalized so they can be kept reusable and consistent
+- The shopping item table was kept separate so items can be added and removed independently of the rest of the data
+
+### React Navigation:
+
+- Both tab and stack structures were used as this seemed logical for the designed pages
+- **Expo Router** was used to automatically map files in `app/` to routes to improve scalability
+
+## Debug
+
+To start the application you will either need to:
+
+- connect a phone with the expo app installed (recommended)
+- download and install a android phone emulator
+- run: npm start
+
+---
+
+### Project Structure
+
+- **app/\_layout.tsx** — Entry point, sets up database and navigation tabs
+- **app/** — Tab navigation pages which include views for each page
+- **assets/** — Contains custom fonts, svgs and images
+- **components/** — Reusable UI components and themed comoponents
+- **constants/** — Contains global variables for themes and helper functions
+- **db/** — Contains database designs and schema
+- **providers/** — Reusable react providers
+- **views/** — These are the views for each tab or stack
+
+---
 
 ## SQLite Database Design
 
 ![DB Design](db/design.png)
 See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/design.md) for a visual/table summary.
+
+## Notes
+
+- I used ChatGPT to help me find icons quicker, search for functions in libraries, confirm database calls were correct and general debugging.

@@ -1,10 +1,10 @@
 import { ViewStyle, StyleProp, useColorScheme, Alert } from "react-native";
 import { Colours } from "@/constants/Globals";
-import ThemedButton from "../ThemedButton";
-import { useEffect, useRef, useState } from "react";
-import ThemedText from "../ThemedText";
+import ThemedButton from "@/components/ThemedButton";
+import { useEffect, useState } from "react";
+import ThemedText from "@/components/ThemedText";
 import { useDatabase } from "@/providers/DatabaseProvider";
-import ThemedDropDownPicker from "../ThemedDropDownPicker";
+import ThemedDropDownPicker from "@/components/ThemedDropDownPicker";
 
 type ThemedViewProps = React.PropsWithChildren<{
   style?: StyleProp<ViewStyle>;

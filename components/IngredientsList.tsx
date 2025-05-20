@@ -9,13 +9,13 @@ import {
   Modal,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Colours } from "../constants/Globals";
+import { Colours } from "@/constants/Globals";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useDatabase } from "@/providers/DatabaseProvider";
-import ThemedText from "./ThemedText";
-import ThemedOverlayView from "./ThemedOverlayView";
-import AddIngredientForm from "./forms/AddIngredientForm";
+import ThemedText from "@/components/ThemedText";
+import ThemedOverlayView from "@/components/ThemedOverlayView";
+import AddIngredientForm from "@/components/forms/AddIngredientForm";
 
 type IngredientsListProps = React.PropsWithChildren<{
   recipeId: number | null;

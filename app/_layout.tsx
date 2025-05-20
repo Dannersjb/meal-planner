@@ -1,35 +1,37 @@
-import { StyleSheet, Text, useColorScheme, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
 import { Tabs } from "expo-router";
-import { Colours } from "../constants/Globals";
+import { Colours } from "@/constants/Globals";
 import { useFonts } from "expo-font";
 
 import { DatabaseProvider } from "@/providers/DatabaseProvider";
 
-import ChefsHatIcon from "../components/Icons/ChefsHatIcon";
-import CalendarIcon from "../components/Icons/CalendarIcon";
-import CogIcon from "../components/Icons/CogIcon";
-import ListIcon from "../components/Icons/ListIcon";
+import ChefsHatIcon from "@/components/Icons/ChefsHatIcon";
+import CalendarIcon from "@/components/Icons/CalendarIcon";
+import CogIcon from "@/components/Icons/CogIcon";
+import ListIcon from "@/components/Icons/ListIcon";
 import { StatusBar } from "expo-status-bar";
 
 const RootLayout = () => {
-  const colorScheme = useColorScheme();
-  //   use this to conditionally style dark or light mode
-  const theme = Colours[colorScheme] ?? Colours.light;
+  const colourScheme = useColorScheme();
+  // use this to conditionally style dark or light mode
+  const theme = Colours[colourScheme ?? "light"];
   const [fontsLoaded] = useFonts({
     "Comfortaa-Regular": require("../assets/fonts/Comfortaa/static/Comfortaa-Regular.ttf"),
     "Comfortaa-Bold": require("../assets/fonts/Comfortaa/static/Comfortaa-Bold.ttf"),
   });
 
+  // wait for fonts to load before rendering app
   if (!fontsLoaded) {
-    return <View />; // or a loading screen
+    return <View />;
   }
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: theme.backgroundColour }}>
       <DatabaseProvider>
-        {/* this will update the statusbar (top text on phone eg time, battery etc) based on the colour theme */}
+        {/* this will update the status bar (top text on phone eg time, battery etc) based on the colour theme 
+            I always want it to be green so I'm hard coding it to light*/}
         <StatusBar style="light" />
         <Tabs
           screenOptions={{
@@ -116,9 +118,3 @@ const RootLayout = () => {
 };
 
 export default RootLayout;
-
-const styles = StyleSheet.create({
-  icon: {
-    marginVertical: 20,
-  },
-});

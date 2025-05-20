@@ -1,7 +1,6 @@
 import { View, ViewStyle, StyleProp, useColorScheme } from "react-native";
-import { Colours } from "../constants/Globals";
+import { Colours } from "@/constants/Globals";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-//import { SafeAreaView } from "react-native-safe-area-context";
 
 type ThemedViewProps = React.PropsWithChildren<{
   style?: StyleProp<ViewStyle>;

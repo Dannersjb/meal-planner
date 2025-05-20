@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet } from "react-native";
 
 import ThemedView from "@/components/ThemedView";
 import ThemedAccordion from "@/components/ThemedAccordion";
-import MonthView from "@/components/views/MonthView";
+import MonthView from "@/views/MonthView";
 
 const YearView = () => {
   const yearSections = [

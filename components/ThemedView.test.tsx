@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import ThemedView from "./ThemedView";
-import { Colours } from "../constants/Globals";
+import ThemedView from "@/components/ThemedView";
+import { Colours } from "@/constants/Globals";
 import { useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 

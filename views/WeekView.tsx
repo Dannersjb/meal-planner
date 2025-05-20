@@ -3,7 +3,7 @@ import { ScrollView, View, StyleSheet, useColorScheme, Pressable, Alert } from "
 import ThemedAccordion from "@/components/ThemedAccordion";
 import ThemedText from "@/components/ThemedText";
 import { formatDateWithOrdinal, getWeeksForMonth } from "@/constants/Helper";
-import MealsList from "../MealsList";
+import MealsList from "@/components/MealsList";
 import { Ionicons } from "@expo/vector-icons";
 import { Colours } from "@/constants/Globals";
 import { useDatabase } from "@/providers/DatabaseProvider";
@@ -50,7 +50,7 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
 
   const checkWeekCompletion = (week: any[]): boolean => {
     return week.every((day) => {
-      if (!day) return true; // skip null placeholders
+      if (!day) return true;
       const formattedDate = day.toISOString().split("T")[0];
 
       // Check if a meal is set for the given date
@@ -79,14 +79,14 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
 
       const scheduledDate = day.toISOString().split("T")[0];
 
-      // Step 1: Get all recipe IDs for the day
+      // Get all recipe IDs for the day
       const recipes = db.getAllSync<{ recipe_id: number }>(
         `SELECT recipe_id FROM meal_plan WHERE scheduled_date = ?`,
         [scheduledDate]
       );
 
       for (const { recipe_id } of recipes) {
-        // Step 2: Get ingredient names for the recipe
+        // Get ingredient names for the recipe
         const ingredients = db.getAllSync<{ name: string }>(
           `SELECT ingredients.name 
              FROM recipe_ingredients 
@@ -96,7 +96,7 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
         );
 
         for (const { name } of ingredients) {
-          // Step 3: Only add if it's not already in shopping_list
+          // Only add if it's not already in shopping_list
           if (!addedIngredients.has(name)) {
             const exists = db.getFirstSync<{ count: number }>(
               `SELECT COUNT(*) as count FROM shopping_list WHERE item_name = ?`,

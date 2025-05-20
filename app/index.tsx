@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import YearView from "@/components/views/YearView"; // year view
-import WeekView from "@/components/views/WeekView"; // new screen for weeks
+import YearView from "@/views/YearView";
+import WeekView from "@/views/WeekView";
 
 type PlanStackParamList = {
   YearView: {};

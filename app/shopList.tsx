@@ -1,4 +1,4 @@
-import ShopListView from "@/components/views/ShopListView";
+import ShopListView from "@/views/ShopListView";
 
 const ShopListScreen = () => {
   return <ShopListView />;

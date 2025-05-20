@@ -12,7 +12,6 @@ import {
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 
 import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedView from "@/components/ThemedView";
@@ -91,7 +90,7 @@ const ShopListView = () => {
   const confirmDeleteChecked = () => {
     Alert.alert(
       "Delete Checked Items",
-      "Are you sure you want to delete all checked shopping items?",
+      "Are you sure you want to remove all checked shopping items?",
       [
         { text: "Cancel", style: "cancel" },
         {

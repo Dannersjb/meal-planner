@@ -9,14 +9,13 @@ import {
   Modal,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Colours } from "../constants/Globals";
+import { Colours } from "@/constants/Globals";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useDatabase } from "@/providers/DatabaseProvider";
-import ThemedText from "./ThemedText";
-import ThemedOverlayView from "./ThemedOverlayView";
-import AddIngredientForm from "./forms/AddIngredientForm";
-import AddMealForm from "./forms/AddMealForm";
+import ThemedText from "@/components/ThemedText";
+import ThemedOverlayView from "@/components/ThemedOverlayView";
+import AddMealForm from "@/components/forms/AddMealForm";
 
 type MealsListProps = React.PropsWithChildren<{
   scheduledDate: string | null;

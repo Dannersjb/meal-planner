@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, act } from "@testing-library/react-native";
-import ShopListView from "./ShopListView";
+import ShopListView from "@/views/ShopListView";
 import { useDatabase } from "@/providers/DatabaseProvider";
 
 describe("<ShopListView>", () => {

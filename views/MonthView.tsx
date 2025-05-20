@@ -1,7 +1,7 @@
 import { TextStyle, StyleProp, StyleSheet, useColorScheme, View, Pressable } from "react-native";
 import { Colours } from "@/constants/Globals";
 import { Ionicons } from "@expo/vector-icons";
-import ThemedText from "../ThemedText";
+import ThemedText from "@/components/ThemedText";
 import { useEffect, useState } from "react";
 import { useDatabase } from "@/providers/DatabaseProvider";
 import { useNavigation } from "expo-router";

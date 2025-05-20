@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import ThemedText from "./ThemedText";
-import { Colours } from "../constants/Globals";
+import ThemedText from "@/components/ThemedText";
+import { Colours } from "@/constants/Globals";
 import { useColorScheme } from "react-native";
 
 // unmock the default jest.setup.js <View> component
