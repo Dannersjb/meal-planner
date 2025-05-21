@@ -17,24 +17,20 @@ React Native components mirror the structure of traditional React components but
 
 Additionally, I took this project as an opportunity to practice graphic design skills. I designed UI layouts in **Figma**, created custom SVG icons using **Inkscape**, and incorporated them into the app.
 
----
-
-## Technologies Used
+### Technologies Used
 
 - **React Native** (using expo)
 - **TypeScript**
 - **SQLite**
 - **Figma** and **Inkscape** for design
 
----
+### Design Decisions
 
-## Design Decisions
-
-### Designs
+#### Designs
 
 - I created premade visual designs to help me to better understand what I was making throughout development
 
-### Database:
+#### Database:
 
 - Ingredients and recipe tables were normalized so they can be kept reusable and consistent
 - The shopping item table was kept separate so items can be added and removed independently of the rest of the data
@@ -44,15 +40,13 @@ Additionally, I took this project as an opportunity to practice graphic design s
 - Both tab and stack structures were used as this seemed logical for the designed pages
 - **Expo Router** was used to automatically map files in `app/` to routes to improve scalability
 
-## Debug
+### Debug
 
 To start the application you will either need to:
 
-- connect a phone with the expo app installed (recommended)
-- download and install a android phone emulator
-- run: npm start
-
----
+- Connect a phone with the expo app installed (recommended)
+- Or download and install a android phone emulator
+  Run with: npm start
 
 ### Project Structure
 
@@ -67,13 +61,13 @@ To start the application you will either need to:
 - **providers/** — Reusable react providers
 - **views/** — These are the views for each tab or stack
 
----
-
-## SQLite Database Design
+### SQLite Database Design
 
 ![DB Design](db/design.png)
 See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/design.md) for a visual/table summary.
 
+---
+
 ## Notes
 
-- I used ChatGPT to help me find icons quicker, generate my SVGs into native components, search for functions in libraries, confirm database calls were correct and general debugging.
+I used ChatGPT to help me find icons quicker, generate my SVGs into native components, search for functions in libraries, confirm database calls were correct and general debugging.
