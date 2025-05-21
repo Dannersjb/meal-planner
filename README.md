@@ -1,6 +1,6 @@
 # CS50 Final Project - Meal Planner
 
-#### Video Demo: <URL HERE>
+#### Video Demo: https://youtu.be/lIeH19e5ik4?si=3EpXr3CKUBPe4jhL
 
 #### Description:
 
