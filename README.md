@@ -29,6 +29,7 @@ Additionally, I took this project as an opportunity to practice graphic design s
 #### Designs
 
 - I created premade visual designs to help me to better understand what I was making throughout development
+[View Design in Figma](https://www.figma.com/design/uY7rGwIt6CKME2WxiUSW1l/meal-planner?node-id=0-1&t=oF2no26HrTY0qVdF-1)
 
 #### Database:
 
