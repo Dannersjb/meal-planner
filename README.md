@@ -16,7 +16,7 @@ React Native components mirror the structure of traditional React components but
 
 Additionally, I took this project as an opportunity to practice graphic design skills. I designed UI layouts in **Figma**, created custom SVG icons using **Inkscape**, and incorporated them into the app.
 
-![Apps Demo GIF](./demo.gif)
+![App Demo GIF](./demo.gif)
 
 ### Technologies Used
 
