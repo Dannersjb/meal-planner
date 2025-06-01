@@ -1,6 +1,6 @@
 # CS50 Final Project - Meal Planner
 
-<img src="./demo.gif" alt="Apps Demo GIF" style="max-height: 400px;">
+![Apps Demo GIF](./demo.gif)
 #### Video Demo: https://youtu.be/lIeH19e5ik4?si=3EpXr3CKUBPe4jhL
 
 #### Description:
