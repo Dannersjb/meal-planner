@@ -1,8 +1,6 @@
 # CS50 Final Project - Meal Planner
 
-![Apps Demo GIF](./demo.gif)
 #### Video Demo: https://youtu.be/lIeH19e5ik4?si=3EpXr3CKUBPe4jhL
-
 #### Description:
 
 This **React Native** mobile application is a meal planner, where a user can:
@@ -17,6 +15,8 @@ The goal was to build on my existing React knowledge and explore mobile developm
 React Native components mirror the structure of traditional React components but target native UI elements instead of web-based HTML/CSS.
 
 Additionally, I took this project as an opportunity to practice graphic design skills. I designed UI layouts in **Figma**, created custom SVG icons using **Inkscape**, and incorporated them into the app.
+
+![Apps Demo GIF](./demo.gif)
 
 ### Technologies Used
 
