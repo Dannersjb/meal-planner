@@ -1,4 +1,3 @@
-// Used ChatGPT to help create the helper functions as this was quicker than finding a calendar library
 export function getWeeksForMonth(month: number, year: number) {
   const weeks: (Date | null)[][] = [];
   const firstDay = new Date(year, month, 1);

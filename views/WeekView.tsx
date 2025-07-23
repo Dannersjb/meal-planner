@@ -67,12 +67,10 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    // used chatGPT to assist with week completion check
     const newCompletionStatus = weeks.map((week) => checkWeekCompletion(week));
     setCompletionStatus(newCompletionStatus); // Update completion status for each week
   }, []);
 
-  // used chatGPT to assist with adding a weeks shop ingredients
   const addWeekToShoppingList = (week: (Date | null)[]) => {
     const addedIngredients = new Set<string>();
 

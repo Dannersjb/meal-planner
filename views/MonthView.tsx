@@ -36,7 +36,6 @@ const MonthView: React.FC<MonthViewProps> = ({ style, leapYear, year, ...props }
   ];
 
   useEffect(() => {
-    // used ChatGPT to help work out the Promise.all logic
     // this is used to work out if the month is complete or not
     // promise all and async database calls mean they get called at the same time and then updated when all querues are complete
     Promise.all(
