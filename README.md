@@ -73,3 +73,6 @@ See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/desig
 ## Notes
 
 I used ChatGPT to help me find icons quicker, generate my SVGs into native components, search for functions in libraries, confirm database calls were correct and general debugging.
+
+## Publish Command
+```eas update --branch main --message "First publish"```
