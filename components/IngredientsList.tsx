@@ -4,7 +4,6 @@ import {
   StyleSheet,
   StyleProp,
   useColorScheme,
-  FlatList,
   Pressable,
   Modal,
   TouchableWithoutFeedback,
@@ -16,6 +15,7 @@ import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedText from "@/components/ThemedText";
 import ThemedOverlayView from "@/components/ThemedOverlayView";
 import AddIngredientForm from "@/components/forms/AddIngredientForm";
+import { SwipeListView } from "react-native-swipe-list-view";
 
 type IngredientsListProps = React.PropsWithChildren<{
   recipeId: number | null;
@@ -66,6 +66,15 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId }) =>
     }
   };
 
+  const deleteIngredient = (id: number) => {
+    try {
+      db.runSync(`DELETE FROM recipe_ingredients WHERE id = ?;`, [id]);
+      refreshIngredientsList();
+    } catch (error) {
+      console.error("Failed to delete ingredient:", error);
+    }
+  };
+
   const renderIngredientContent = ({ item }: { item: Ingredient }) => (
     <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
       <ThemedText
@@ -85,11 +94,26 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId }) =>
       ]}
     >
       <ThemedText style={{ fontSize: 21, marginBottom: 10 }}>Ingredients:</ThemedText>
-      <FlatList
+      <SwipeListView
         data={ingredientList}
         keyExtractor={(item) => `${item.id}`}
-        renderItem={renderIngredientContent}
         scrollEnabled={false}
+        renderItem={({ item }) => (
+          <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
+            <ThemedText style={{ fontSize: 18 }}>
+              {`${item.quantity}${item.unit} ${item.name}`}
+            </ThemedText>
+          </View>
+        )}
+        renderHiddenItem={({ item }) => (
+          <Pressable
+            style={styles.deleteButtonContainer}
+            onPress={() => deleteIngredient(item.id)}
+          >
+            <ThemedText style={styles.deleteButton}>Delete</ThemedText>
+          </Pressable>
+        )}
+        rightOpenValue={-75}
       />
       <Pressable
         style={[
@@ -142,6 +166,18 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     fontWeight: "bold",
   },
+  deleteButtonContainer: {
+    justifyContent: "center",
+    alignItems: "flex-end",
+    flex: 1,
+  },
+  deleteButton: {
+    backgroundColor: Colours.danger,
+    color: '#fff',
+    padding: 20,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+  }
 });
 
 export default IngredientsList;

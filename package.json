@@ -17,6 +17,7 @@
     "expo-router": "~5.0.6",
     "expo-sqlite": "^15.2.10",
     "expo-status-bar": "~2.2.3",
+    "expo-updates": "~0.28.17",
     "jest-expo": "~53.0.5",
     "react": "19.0.0",
     "react-native": "0.79.2",
@@ -26,7 +27,7 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
     "react-native-svg": "15.11.2",
-    "expo-updates": "~0.28.17"
+    "react-native-swipe-list-view": "^3.2.9"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -165,8 +165,8 @@ const ShopListView = () => {
             }}
           />
           <Pressable style={[styles.deleteButton]} onPress={confirmDeleteChecked}>
-            <ThemedText style={{ fontSize: 18, color: "#D94A38" }}>Delete Checked</ThemedText>
-            <Ionicons name="trash-outline" size={36} color="#D94A38" />
+            <ThemedText style={{ fontSize: 18, color: Colours.danger }}>Delete Checked</ThemedText>
+            <Ionicons name="trash-outline" size={36} color={Colours.danger} />
           </Pressable>
         </>
       )}

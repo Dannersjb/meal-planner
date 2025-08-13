@@ -2,6 +2,7 @@ export const Colours = {
   primary: "#25A58B",
   secondary: "#BEF3DD",
   warning: "#FCAF15",
+  danger: "#D94A38",
   fontFamily: "Comfortaa-Regular",
   fontFamilyBold: "Comfortaa-Bold",
 
