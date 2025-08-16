@@ -83,7 +83,7 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
 
     return (
       <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour, borderColor: theme.outlineColour }]}>
-        <ThemedText style={{ fontSize: 18 }}>{item.name}</ThemedText>
+        <ThemedText style={{ fontSize: 18, flexWrap: "wrap", textAlign: "center", }}>{item.name}</ThemedText>
       </View>
     );
   };
@@ -127,14 +127,14 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
 
 const styles = StyleSheet.create({
   addButton: {
-    paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 2,
     borderRadius: 10,
     marginVertical: 10,
     marginHorizontal: 5,
+    height: 75,
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   ingredientList: {
@@ -145,11 +145,16 @@ const styles = StyleSheet.create({
   ingredient: {
     borderColor: "#000000",
     marginHorizontal: 5,
-    padding: 20,
+    paddingHorizontal: 20,
     borderRadius: 10,
     borderWidth: 2,
     fontSize: 20,
     fontWeight: "bold",
+    maxWidth: 150,
+    justifyContent: "center",
+    alignItems: "center", 
+    height: 75,
+    flexShrink: 1, 
   },
 });
 
