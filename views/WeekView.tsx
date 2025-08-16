@@ -17,6 +17,11 @@ type PlanStackParamList = {
     monthName: string;
     year: number;
   };
+  MealsView: {
+    week: (string | null)[];
+    monthName: string;
+    year: number;
+  };
 };
 
 type WeekViewProps = NativeStackScreenProps<PlanStackParamList, "WeekView">;
