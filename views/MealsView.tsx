@@ -108,7 +108,7 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
 
         return (
           <View key={dayIndex} style={[styles.day, { borderBlockColor: theme.borderColour }]}> 
-            <ThemedText style={{ width: 65 }}>{formattedLabel}</ThemedText>
+            <ThemedText style={{ width: 75, fontSize: 16, fontFamily: Colours.fontFamilyBold }}>{formattedLabel}</ThemedText>
             <View style={styles.mealContent}>
               <MealsList scheduledDate={day.toISOString().split("T")[0]} />
             </View>
