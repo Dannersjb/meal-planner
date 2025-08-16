@@ -23,7 +23,7 @@ type PlanStackParamList = {
 
 type WeekViewProps = NativeStackScreenProps<PlanStackParamList, "WeekView">;
 
-const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
+const MealsView: React.FC<WeekViewProps> = ({ route, navigation }) => {
   const { monthIndex, monthName, year } = route.params;
   const weeks = getWeeksForMonth(monthIndex, year);
   const db = useDatabase();
@@ -47,14 +47,6 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
       },
     });
   }, [navigation, monthName, year]);
-
-  function getOrdinal(date: Date) {
-    const day = date.getDate();
-    if (day % 10 === 1 && day !== 11) return "st";
-    if (day % 10 === 2 && day !== 12) return "nd";
-    if (day % 10 === 3 && day !== 13) return "rd";
-    return "th";
-  }
 
   const checkWeekCompletion = (week: any[]): boolean => {
     return week.every((day) => {
@@ -130,69 +122,55 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
     <ScrollView
       contentContainerStyle={[styles.container, { backgroundColor: theme.backgroundColour }]}
     >
-      {weeks.map((week, weekIndex) => {
-        // Get the first and last valid date in this week
-        const startDate = week.find((d) => d !== null);
-        const endDate = [...week].reverse().find((d) => d !== null);
-
-        // Format them nicely (you already have formatDateWithOrdinal helper)
-        const weekRange =
-        startDate && endDate
-          ? `${startDate.toLocaleDateString("en-US", { weekday: "short" })} ${startDate.getDate()}${getOrdinal(startDate)} - ${endDate.toLocaleDateString("en-US", { weekday: "short" })} ${endDate.getDate()}${getOrdinal(endDate)}`
-          : "";
-
-        return (
-          <View key={weekIndex} style={styles.weekContainer}>
-              <View style={styles.weekHeader}>
-                <ThemedText style={[styles.weekTitle, { fontFamily: Colours.fontFamilyBold }]}>
-                  Week {weekIndex + 1} <ThemedText style={styles.ordinal}> {weekRange ? ` ${weekRange}` : ""}</ThemedText>
-                </ThemedText>
-                <Ionicons
-                  name={completionStatus[weekIndex] ? "checkmark-circle" : "remove-circle"}
-                  size={36}
-                  color={completionStatus[weekIndex] ? Colours.primary : Colours.warning}
-                />
-              </View>
-
-              {/* {week.map((day, dayIndex) => {
-                if (!day) return null; // skip null placeholders
-
-                const formattedLabel = formatDateWithOrdinal(day);
-
-                return (
-                  <ThemedAccordion
-                    key={dayIndex}
-                    sections={[
-                      {
-                        name: formattedLabel,
-                        content: (
-                          <View style={styles.mealContent}>
-                            <MealsList scheduledDate={day.toISOString().split("T")[0]} />
-                          </View>
-                        ),
-                      },
-                    ]}
-                    subSection={true}
-                    renderContent={(section) => section.content}
-                    defaultActiveSectionIndex={1}
-                  />
-                );
-              })} */}
-              {/* <Pressable
-                style={[
-                  styles.addButton,
-                  { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
-                ]}
-                onPress={() => addWeekToShoppingList(week)}
-              >
-                <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
-                <Ionicons name="cart" size={42} color={Colours.primary} />
-              </Pressable> */}
+      {weeks.map((week, weekIndex) => (
+        <View key={weekIndex} style={styles.weekContainer}>
+          <View style={styles.weekHeader}>
+            <ThemedText style={[styles.weekTitle, { fontFamily: Colours.fontFamilyBold }]}>
+              Week {weekIndex + 1}
+            </ThemedText>
+            <Ionicons
+              name={completionStatus[weekIndex] ? "checkmark-circle" : "remove-circle"}
+              size={36}
+              color={completionStatus[weekIndex] ? Colours.primary : Colours.warning}
+            />
           </View>
-        )
-      }
-        
-      )}
+
+          {week.map((day, dayIndex) => {
+            if (!day) return null; // skip null placeholders
+
+            const formattedLabel = formatDateWithOrdinal(day);
+
+            return (
+              <ThemedAccordion
+                key={dayIndex}
+                sections={[
+                  {
+                    name: formattedLabel,
+                    content: (
+                      <View style={styles.mealContent}>
+                        <MealsList scheduledDate={day.toISOString().split("T")[0]} />
+                      </View>
+                    ),
+                  },
+                ]}
+                subSection={true}
+                renderContent={(section) => section.content}
+                defaultActiveSectionIndex={1}
+              />
+            );
+          })}
+          <Pressable
+            style={[
+              styles.addButton,
+              { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
+            ]}
+            onPress={() => addWeekToShoppingList(week)}
+          >
+            <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
+            <Ionicons name="cart" size={42} color={Colours.primary} />
+          </Pressable>
+        </View>
+      ))}
     </ScrollView>
   );
 };
@@ -215,9 +193,6 @@ const styles = StyleSheet.create({
   },
   mealContent: {
     borderRadius: 8,
-  },
-  ordinal: {
-    fontSize: 16
   },
   addButton: {
     paddingVertical: 10,
