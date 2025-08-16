@@ -92,15 +92,15 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
     <>
       <FlatList
         data={[...mealList, { id: "add", name: "" }]}
-        contentContainerStyle={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center"
+        contentContainerStyle={{   
+          alignItems: "center",
+          paddingRight: 50,
         }}
         horizontal={true}
         keyExtractor={(item, index) => `${item.id}-${index}-${scheduledDate}`}
         renderItem={renderRecipeContent}
         scrollEnabled={true}
+        showsHorizontalScrollIndicator={false}
       />
 
       <Modal
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 2,
     borderRadius: 10,
-    marginVertical: 5,
-    marginLeft: 10,
+    marginVertical: 10,
+    marginHorizontal: 5,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
@@ -144,12 +144,11 @@ const styles = StyleSheet.create({
   },
   ingredient: {
     borderColor: "#000000",
-    marginLeft: 10,
+    marginHorizontal: 5,
     padding: 20,
     borderRadius: 10,
     borderWidth: 2,
     fontSize: 20,
-    marginVertical: 5,
     fontWeight: "bold",
   },
 });
