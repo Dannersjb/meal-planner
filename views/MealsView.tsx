@@ -14,21 +14,18 @@ interface MealCountResult {
 }
 
 type PlanStackParamList = {
-  WeekView: {
-    monthIndex: number;
+  MealsView: {
+    week: any;
     monthName: string;
     year: number;
   };
 };
 
-type WeekViewProps = NativeStackScreenProps<PlanStackParamList, "WeekView">;
+type MealsViewProps = NativeStackScreenProps<PlanStackParamList, "MealsView">;
 
-const MealsView: React.FC<WeekViewProps> = ({ route, navigation }) => {
-  const { monthIndex, monthName, year } = route.params;
-  const weeks = getWeeksForMonth(monthIndex, year);
+const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
+  const { week, monthName, year } = route.params;
   const db = useDatabase();
-  const [completionStatus, setCompletionStatus] = useState<boolean[]>([]);
-
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
 
@@ -47,29 +44,6 @@ const MealsView: React.FC<WeekViewProps> = ({ route, navigation }) => {
       },
     });
   }, [navigation, monthName, year]);
-
-  const checkWeekCompletion = (week: any[]): boolean => {
-    return week.every((day) => {
-      if (!day) return true;
-      const formattedDate = day.toISOString().split("T")[0];
-
-      // Check if a meal is set for the given date
-      const result = db.getFirstSync<MealCountResult>(
-        `SELECT COUNT(*) as mealCount 
-         FROM meal_plan 
-         WHERE scheduled_date = ?`,
-        [formattedDate]
-      );
-
-      // Ensure result is not undefined before accessing 'mealCount'
-      return result && result.mealCount > 0; // Return true if meal exists for the day
-    });
-  };
-
-  useEffect(() => {
-    const newCompletionStatus = weeks.map((week) => checkWeekCompletion(week));
-    setCompletionStatus(newCompletionStatus); // Update completion status for each week
-  }, []);
 
   const addWeekToShoppingList = (week: (Date | null)[]) => {
     const addedIngredients = new Set<string>();
@@ -120,61 +94,48 @@ const MealsView: React.FC<WeekViewProps> = ({ route, navigation }) => {
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: theme.backgroundColour }]}
-    >
-      {weeks.map((week, weekIndex) => (
-        <View key={weekIndex} style={styles.weekContainer}>
-          <View style={styles.weekHeader}>
-            <ThemedText style={[styles.weekTitle, { fontFamily: Colours.fontFamilyBold }]}>
-              Week {weekIndex + 1}
-            </ThemedText>
-            <Ionicons
-              name={completionStatus[weekIndex] ? "checkmark-circle" : "remove-circle"}
-              size={36}
-              color={completionStatus[weekIndex] ? Colours.primary : Colours.warning}
-            />
-          </View>
+        contentContainerStyle={[styles.container, { backgroundColor: theme.backgroundColour }]}
+      >
+      {week.map((day: Date, dayIndex: React.Key | null | undefined) => {
+        if (!day) return null; // skip null placeholders
 
-          {week.map((day, dayIndex) => {
-            if (!day) return null; // skip null placeholders
+        const formattedLabel = formatDateWithOrdinal(day);
 
-            const formattedLabel = formatDateWithOrdinal(day);
-
-            return (
-              <ThemedAccordion
-                key={dayIndex}
-                sections={[
-                  {
-                    name: formattedLabel,
-                    content: (
-                      <View style={styles.mealContent}>
-                        <MealsList scheduledDate={day.toISOString().split("T")[0]} />
-                      </View>
-                    ),
-                  },
-                ]}
-                subSection={true}
-                renderContent={(section) => section.content}
-                defaultActiveSectionIndex={1}
-              />
-            );
-          })}
-          <Pressable
-            style={[
-              styles.addButton,
-              { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
+        return (
+          <ThemedAccordion
+            key={dayIndex}
+            sections={[
+              {
+                name: formattedLabel,
+                content: (
+                  <View style={styles.mealContent}>
+                    <MealsList scheduledDate={day.toISOString().split("T")[0]} />
+                  </View>
+                ),
+              },
             ]}
-            onPress={() => addWeekToShoppingList(week)}
-          >
-            <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
-            <Ionicons name="cart" size={42} color={Colours.primary} />
-          </Pressable>
-        </View>
-      ))}
-    </ScrollView>
-  );
-};
+            subSection={true}
+            renderContent={(section) => section.content}
+            defaultActiveSectionIndex={1}
+          />
+        );
+      })}
 
+        <Pressable
+          style={[
+            styles.addButton,
+            { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
+          ]}
+          onPress={() => addWeekToShoppingList(week)}
+        >
+          <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
+          <Ionicons name="cart" size={42} color={Colours.primary} />
+        </Pressable> 
+    </ScrollView>
+  )}
+      
+  
+  
 const styles = StyleSheet.create({
   container: {
     padding: 20,
@@ -207,4 +168,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WeekView;
+export default MealsView;
