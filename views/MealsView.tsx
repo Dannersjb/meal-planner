@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView, View, StyleSheet, useColorScheme, Pressable, Alert } from "react-native";
 import ThemedAccordion from "@/components/ThemedAccordion";
 import ThemedText from "@/components/ThemedText";
-import { getOrdinal } from "@/constants/Helper";
+import { expandWeekToFullWeek, getOrdinal } from "@/constants/Helper";
 import MealsList from "@/components/MealsList";
 import { Ionicons } from "@expo/vector-icons";
 import { Colours } from "@/constants/Globals";
@@ -26,6 +26,10 @@ type MealsViewProps = NativeStackScreenProps<PlanStackParamList, "MealsView">;
 const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
   const { week, monthName, year } = route.params;
   const parsedWeek = week.map((d) => d ? new Date(d) : null);
+
+  // Replace your parsedWeek with a full week Monday → Sunday
+  const fullWeek = expandWeekToFullWeek(parsedWeek);
+
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -97,7 +101,7 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
     <ScrollView
         contentContainerStyle={[styles.container, { backgroundColor: theme.backgroundColour }]}
       >
-      {parsedWeek.map((day, dayIndex: React.Key | null | undefined) => {
+      {fullWeek.map((day, dayIndex: React.Key | null | undefined) => {
         if (!day) return null; // skip null placeholders
 
         const formattedLabel = `${day.toLocaleDateString("en-US", { weekday: "short" })} ${day.getDate()}${getOrdinal(day)}`
@@ -117,7 +121,7 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
             styles.addButton,
             { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
           ]}
-          onPress={() => addWeekToShoppingList(parsedWeek)}
+          onPress={() => addWeekToShoppingList(fullWeek)}
         >
           <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
           <Ionicons name="cart" size={42} color={Colours.primary} />

@@ -50,9 +50,29 @@ export function formatDateWithOrdinal(date: Date, hasMonth: boolean = false): st
 }
 
 export function getOrdinal(date: Date) {
-    const day = date.getDate();
-    if (day % 10 === 1 && day !== 11) return "st";
-    if (day % 10 === 2 && day !== 12) return "nd";
-    if (day % 10 === 3 && day !== 13) return "rd";
-    return "th";
+  const day = date.getDate();
+  if (day % 10 === 1 && day !== 11) return "st";
+  if (day % 10 === 2 && day !== 12) return "nd";
+  if (day % 10 === 3 && day !== 13) return "rd";
+  return "th";
+}
+
+export function expandWeekToFullWeek(week: (Date | null)[]): Date[] {
+  // Find the first valid date
+  const firstValid = week.find(d => d !== null);
+  if (!firstValid) return [];
+
+  const day = firstValid!.getDay(); // 0 = Sunday, 1 = Monday
+  const diffToMonday = (day + 6) % 7; // days back to Monday
+  const monday = new Date(firstValid!);
+  monday.setDate(firstValid!.getDate() - diffToMonday);
+
+  const fullWeek: Date[] = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    fullWeek.push(d);
   }
+
+  return fullWeek;
+}
