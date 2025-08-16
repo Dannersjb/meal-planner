@@ -48,3 +48,11 @@ export function formatDateWithOrdinal(date: Date, hasMonth: boolean = false): st
 
   return !hasMonth ? `${weekday} ${day}${ordinal}` : `${weekday} ${day}${ordinal} ${month}`;
 }
+
+export function getOrdinal(date: Date) {
+    const day = date.getDate();
+    if (day % 10 === 1 && day !== 11) return "st";
+    if (day % 10 === 2 && day !== 12) return "nd";
+    if (day % 10 === 3 && day !== 13) return "rd";
+    return "th";
+  }

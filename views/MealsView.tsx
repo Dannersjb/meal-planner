@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView, View, StyleSheet, useColorScheme, Pressable, Alert } from "react-native";
 import ThemedAccordion from "@/components/ThemedAccordion";
 import ThemedText from "@/components/ThemedText";
-import { formatDateWithOrdinal, getWeeksForMonth } from "@/constants/Helper";
+import { formatDateWithOrdinal, getWeeksForMonth, getOrdinal } from "@/constants/Helper";
 import MealsList from "@/components/MealsList";
 import { Ionicons } from "@expo/vector-icons";
 import { Colours } from "@/constants/Globals";
@@ -99,7 +99,7 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
       {week.map((day: Date, dayIndex: React.Key | null | undefined) => {
         if (!day) return null; // skip null placeholders
 
-        const formattedLabel = formatDateWithOrdinal(day);
+        const formattedLabel = `${day.toLocaleDateString("en-US", { weekday: "short" })} ${day.getDate()}${getOrdinal(day)}`
 
         return (
           <ThemedAccordion

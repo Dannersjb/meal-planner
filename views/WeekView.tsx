@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView, View, StyleSheet, useColorScheme, Pressable, Alert } from "react-native";
 import ThemedText from "@/components/ThemedText";
-import { getWeeksForMonth } from "@/constants/Helper";
+import { getWeeksForMonth, getOrdinal } from "@/constants/Helper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colours } from "@/constants/Globals";
 import { useDatabase } from "@/providers/DatabaseProvider";
@@ -45,14 +45,6 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
       },
     });
   }, [navigation, monthName, year]);
-
-  function getOrdinal(date: Date) {
-    const day = date.getDate();
-    if (day % 10 === 1 && day !== 11) return "st";
-    if (day % 10 === 2 && day !== 12) return "nd";
-    if (day % 10 === 3 && day !== 13) return "rd";
-    return "th";
-  }
 
   const checkWeekCompletion = (week: any[]): boolean => {
     return week.every((day) => {
