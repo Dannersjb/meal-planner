@@ -3,7 +3,7 @@ import YearView from "@/views/YearView";
 import WeekView from "@/views/WeekView";
 import MealsView from "@/views/MealsView"
 
-type PlanStackParamList = {
+export type PlanStackParamList = {
   YearView: {};
   WeekView: {
     monthIndex: number;
@@ -19,7 +19,7 @@ type PlanStackParamList = {
 
 const Stack = createNativeStackNavigator<PlanStackParamList>();
 
-export default function HomeScreen() {
+export default function HomeScreen() { 
   return (
     <Stack.Navigator>
       <Stack.Screen
