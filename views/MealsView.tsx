@@ -15,7 +15,7 @@ interface MealCountResult {
 
 type PlanStackParamList = {
   MealsView: {
-    week: any;
+    week: string[];
     monthName: string;
     year: number;
   };
@@ -25,6 +25,7 @@ type MealsViewProps = NativeStackScreenProps<PlanStackParamList, "MealsView">;
 
 const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
   const { week, monthName, year } = route.params;
+  const parsedWeek = week.map((d) => d ? new Date(d) : null);
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -96,18 +97,18 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
     <ScrollView
         contentContainerStyle={[styles.container, { backgroundColor: theme.backgroundColour }]}
       >
-      {week.map((day: Date, dayIndex: React.Key | null | undefined) => {
+      {parsedWeek.map((day, dayIndex: React.Key | null | undefined) => {
         if (!day) return null; // skip null placeholders
 
         const formattedLabel = `${day.toLocaleDateString("en-US", { weekday: "short" })} ${day.getDate()}${getOrdinal(day)}`
 
         return (
-          <ThemedText key={dayIndex}> 
-            {formattedLabel}
+          <View key={dayIndex} style={[styles.day, { borderBlockColor: theme.borderColour }]}> 
+            <ThemedText style={{ width: 60 }}>{formattedLabel}</ThemedText>
             <View style={styles.mealContent}>
               <MealsList scheduledDate={day.toISOString().split("T")[0]} />
             </View>
-          </ThemedText>
+          </View>
         );
       })}
 
@@ -116,7 +117,7 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
             styles.addButton,
             { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
           ]}
-          onPress={() => addWeekToShoppingList(week)}
+          onPress={() => addWeekToShoppingList(parsedWeek)}
         >
           <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Shopping</ThemedText>
           <Ionicons name="cart" size={42} color={Colours.primary} />
@@ -127,6 +128,12 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
   
   
 const styles = StyleSheet.create({
+  day: {
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   container: {
     padding: 20,
   },

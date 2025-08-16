@@ -89,7 +89,7 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
             key={weekIndex}
             onPress={() =>
               navigation.navigate("MealsView", {
-                week: week,
+                week: week.map((d) => d ? d.toISOString() : null),
                 monthName: monthName,
                 year: year,
               })

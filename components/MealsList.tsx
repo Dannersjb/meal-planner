@@ -23,7 +23,7 @@ type MealsListProps = React.PropsWithChildren<{
 }>;
 
 type Recipe = {
-  id: number;
+  id: number | "add";
   name: string;
 };
 
@@ -66,37 +66,42 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
     }
   };
 
-  const renderRecipeContent = ({ item }: { item: Recipe }) => (
-    <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
-      <ThemedText style={{ fontSize: 18 }}>{item.name}</ThemedText>
-    </View>
-  );
+  const renderRecipeContent = ({ item }: { item: Recipe }) => {
+    if (item.id === "add") {
+      return (
+        <Pressable
+          style={[
+            styles.addButton,
+            { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
+          ]}
+          onPress={() => setMealModalVisible(true)}
+        >
+          <Ionicons name="add-circle" size={42} color={Colours.primary} />
+        </Pressable>
+      );
+    }
+
+    return (
+      <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour, borderColor: theme.outlineColour }]}>
+        <ThemedText style={{ fontSize: 18 }}>{item.name}</ThemedText>
+      </View>
+    );
+  };
 
   return (
-    <View
-      style={[
-        {
-          backgroundColor: Colours.secondary,
-          padding: 20,
-        },
-        style,
-      ]}
-    >
+    <>
       <FlatList
-        data={mealList}
-        keyExtractor={(item) => `${item.id}`}
+        data={[...mealList, { id: "add", name: "" }]}
+        contentContainerStyle={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+        horizontal={true}
+        keyExtractor={(item, index) => `${item.id}-${index}-${scheduledDate}`}
         renderItem={renderRecipeContent}
-        scrollEnabled={false}
+        scrollEnabled={true}
       />
-      <Pressable
-        style={[
-          styles.addButton,
-          { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
-        ]}
-        onPress={() => setMealModalVisible(true)}
-      >
-        <Ionicons name="add-circle" size={42} color={Colours.primary} />
-      </Pressable>
 
       <Modal
         visible={mealModalVisible}
@@ -116,7 +121,7 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
           </ThemedOverlayView>
         </TouchableWithoutFeedback>
       </Modal>
-    </View>
+    </>
   );
 };
 
@@ -127,13 +132,22 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     marginVertical: 5,
+    marginLeft: 10,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  ingredientList: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   ingredient: {
+    borderColor: "#000000",
+    marginLeft: 10,
     padding: 20,
     borderRadius: 10,
+    borderWidth: 2,
     fontSize: 20,
     marginVertical: 5,
     fontWeight: "bold",

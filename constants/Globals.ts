@@ -12,6 +12,7 @@ export const Colours = {
     textColour: "#FFF",
     iconColour: "#D9D9D9",
     borderColour: "#EBEBEB",
+    outlineColour: "",
   },
   light: {
     // light specific colours
@@ -19,5 +20,6 @@ export const Colours = {
     textColour: "#000",
     iconColour: "#D9D9D9",
     borderColour: "#EBEBEB",
+    outlineColour: "#848484ff",
   },
 };
