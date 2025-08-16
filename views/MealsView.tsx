@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView, View, StyleSheet, useColorScheme, Pressable, Alert } from "react-native";
 import ThemedAccordion from "@/components/ThemedAccordion";
 import ThemedText from "@/components/ThemedText";
-import { formatDateWithOrdinal, getWeeksForMonth, getOrdinal } from "@/constants/Helper";
+import { getOrdinal } from "@/constants/Helper";
 import MealsList from "@/components/MealsList";
 import { Ionicons } from "@expo/vector-icons";
 import { Colours } from "@/constants/Globals";
@@ -102,22 +102,12 @@ const MealsView: React.FC<MealsViewProps> = ({ route, navigation }) => {
         const formattedLabel = `${day.toLocaleDateString("en-US", { weekday: "short" })} ${day.getDate()}${getOrdinal(day)}`
 
         return (
-          <ThemedAccordion
-            key={dayIndex}
-            sections={[
-              {
-                name: formattedLabel,
-                content: (
-                  <View style={styles.mealContent}>
-                    <MealsList scheduledDate={day.toISOString().split("T")[0]} />
-                  </View>
-                ),
-              },
-            ]}
-            subSection={true}
-            renderContent={(section) => section.content}
-            defaultActiveSectionIndex={1}
-          />
+          <ThemedText key={dayIndex}> 
+            {formattedLabel}
+            <View style={styles.mealContent}>
+              <MealsList scheduledDate={day.toISOString().split("T")[0]} />
+            </View>
+          </ThemedText>
         );
       })}
 
@@ -142,15 +132,6 @@ const styles = StyleSheet.create({
   },
   weekContainer: {
     marginBottom: 20,
-  },
-  weekHeader: {
-    paddingVertical: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  weekTitle: {
-    fontSize: 24,
   },
   mealContent: {
     borderRadius: 8,

@@ -95,7 +95,6 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
         ]}
         onPress={() => setMealModalVisible(true)}
       >
-        <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Meal</ThemedText>
         <Ionicons name="add-circle" size={42} color={Colours.primary} />
       </Pressable>
 
