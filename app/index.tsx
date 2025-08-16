@@ -10,6 +10,11 @@ type PlanStackParamList = {
     monthName: string;
     year: number;
   };
+  MealsView: {
+    week: string[];
+    monthName: string;
+    year: number;
+  }
 };
 
 const Stack = createNativeStackNavigator<PlanStackParamList>();
