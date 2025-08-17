@@ -7,6 +7,7 @@ import {
   Pressable,
   Modal,
   TouchableWithoutFeedback,
+  FlatList,
 } from "react-native";
 import { Colours } from "@/constants/Globals";
 import React, { useEffect, useState } from "react";
@@ -76,13 +77,13 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
     }
   };
 
-  const renderIngredientContent = ({ item }: { item: Ingredient }) => (
-    <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
-      <ThemedText
-        style={{ fontSize: 18 }}
-      >{`${item.quantity}${item.unit} ${item.name}`}</ThemedText>
-    </View>
-  );
+  // const renderIngredientContent = ({ item }: { item: Ingredient }) => (
+  //   <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
+  //     <ThemedText
+  //       style={{ fontSize: 18 }}
+  //     >{`${item.quantity}${item.unit} ${item.name}`}</ThemedText>
+  //   </View>
+  // );
 
   return (
     <View
@@ -94,17 +95,38 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
         style,
       ]}
     >
-      <ThemedText style={{ fontSize: 21, marginBottom: 10 }}>Ingredients:</ThemedText>
-      <SwipeListView
+      <ThemedText style={{ fontSize: 21, marginBottom: 10 }}>Ingredients</ThemedText>
+      <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
+        { ingredientList.length === 0 ? (
+          <ThemedText>No Ingredients.</ThemedText>
+        ) : (
+          <>
+          {ingredientList.map((item) => (
+          <View style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
+            <ThemedText key={item.id} style={{ paddingVertical: 7, fontSize: 16}}>
+                {`${item.quantity}${item.unit} ${item.name}`}
+            </ThemedText>
+            { editMode && (
+                  <Pressable
+                    style={styles.deleteButtonContainer}
+                    onPress={() => deleteIngredient(item.id)}>
+                      <Ionicons name="trash" size={22} color={Colours.danger} />
+                  </Pressable>
+            )}
+          </View>
+        ))}
+        </>
+        )
+        }
+        
+      {/* <FlatList
         data={ingredientList}
         keyExtractor={(item) => `${item.id}`}
         scrollEnabled={false}
         renderItem={({ item }) => (
-          <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
-            <ThemedText style={{ fontSize: 18 }}>
+            <ThemedText style={{ paddingVertical: 7, fontSize: 16, borderBottomWidth: 1, borderColor: theme.borderColour }}>
               {`${item.quantity}${item.unit} ${item.name}`}
             </ThemedText>
-          </View>
         )}
         renderHiddenItem={({ item }) => (
           <Pressable
@@ -115,7 +137,8 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
           </Pressable>
         )}
         rightOpenValue={-75}
-      />
+      /> */}
+      </View>
       { editMode && (
         <Pressable
           style={[

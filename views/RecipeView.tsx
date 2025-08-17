@@ -62,13 +62,6 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
         }
     }, []);
 
-  const renderRecipeContent = (recipe: Recipe) => (
-    <View style={{ paddingHorizontal: 10 }}>
-      <IngredientsList recipeId={recipe.id} />
-      <ThemedText>{recipe.instructions}</ThemedText>
-    </View>
-  );
-
   return (
     <ThemedView>
       {!recipe ? (
@@ -82,7 +75,7 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
       ) : (
         <ScrollView>
             <View style={ styles.recipeContainer }>
-                <ThemedText title={true}>{recipe.name}</ThemedText>
+                <ThemedText title={true} style={{ marginBottom: 20, marginTop: 10}}>{recipe.name}</ThemedText>
                 <IngredientsList recipeId={recipe.id} editMode={editMode}/>
                 <ThemedText>{recipe.instructions}</ThemedText>
             </View>
