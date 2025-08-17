@@ -11,7 +11,7 @@ export type PlanStackParamList = {
     year: number;
   };
   MealsView: {
-    week: string[];
+    week: (string | null)[];
     monthName: string;
     year: number;
   }

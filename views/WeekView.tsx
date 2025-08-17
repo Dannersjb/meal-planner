@@ -6,23 +6,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colours } from "@/constants/Globals";
 import { useDatabase } from "@/providers/DatabaseProvider";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { PlanStackParamList } from "@/app/index";
 
 interface MealCountResult {
   mealCount: number;
 }
-
-type PlanStackParamList = {
-  WeekView: {
-    monthIndex: number;
-    monthName: string;
-    year: number;
-  };
-  MealsView: {
-    week: (string | null)[];
-    monthName: string;
-    year: number;
-  };
-};
 
 type WeekViewProps = NativeStackScreenProps<PlanStackParamList, "WeekView">;
 
