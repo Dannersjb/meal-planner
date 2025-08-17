@@ -26,7 +26,7 @@ const RecipesScreen = () => {
         name="RecipeView"
         component={RecipeView}
         options={{
-          headerShown: false,
+          headerShown: true,
           title: "",
         }}
       />

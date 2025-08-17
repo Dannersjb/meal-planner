@@ -27,23 +27,33 @@ const RecipeListView : React.FC<RecipeListViewProps> = ({ route, navigation }) =
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);
   const [recipeModalVisible, setRecipeModalVisible] = useState(false);
 
-  useLayoutEffect(() => {
-    const parentNav = navigation.getParent();
+  useEffect(() => {
+  const parentNav = navigation.getParent();
 
+  const focusUnsub = navigation.addListener("focus", () => {
     parentNav?.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setRecipeModalVisible(true)} style={{ marginRight: 20 }}>
+        <TouchableOpacity
+          onPress={() => setRecipeModalVisible(true)}
+          style={{ marginRight: 20 }}
+        >
           <Ionicons name="add-circle" size={42} color="#FFF" />
         </TouchableOpacity>
       ),
     });
+  });
 
-    return () => {
-      parentNav?.setOptions({
-        headerRight: undefined,
-      });
+  const blurUnsub = navigation.addListener("blur", () => {
+    parentNav?.setOptions({
+      headerRight: undefined, // clear when leaving this screen
+    });
+  });
+
+  return () => {
+    focusUnsub();
+    blurUnsub();
   };
-  }, [navigation]);
+}, [navigation]);
 
   useEffect(() => {
     try {

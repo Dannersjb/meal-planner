@@ -1,5 +1,5 @@
-import { ScrollView, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { ScrollView, View, StyleSheet } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedView from "@/components/ThemedView";
 import ThemedText from "@/components/ThemedText";
@@ -20,6 +20,30 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
   const { recipeId } = route.params;
   const db = useDatabase();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+
+
+  useEffect(() => {
+  const parentNav = navigation.getParent();
+
+  const focusUnsub = navigation.addListener("focus", () => {
+    parentNav?.setOptions({
+    headerRight: () => (
+            <ThemedText>hello</ThemedText>
+        ),
+        });
+    });
+
+    const blurUnsub = navigation.addListener("blur", () => {
+        parentNav?.setOptions({
+        headerRight: undefined, // clear when leaving this screen
+        });
+    });
+
+    return () => {
+        focusUnsub();
+        blurUnsub();
+    };
+    }, [navigation]);
 
     useEffect(() => {
         try {
@@ -49,9 +73,10 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
         </View>
       ) : (
         <ScrollView>
-            <View style={{ paddingHorizontal: 10 }}>
+            <View style={ styles.recipeContainer }>
+                <ThemedText title={true}>{recipe.name}</ThemedText>
                 <IngredientsList recipeId={recipe.id} />
-                {/* <ThemedText>{recipe.instructions}</ThemedText> */}
+                <ThemedText>{recipe.instructions}</ThemedText>
             </View>
         </ScrollView>
       )}
@@ -59,5 +84,12 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
     </ThemedView>
   );
 };
+
+const styles = StyleSheet.create({
+  recipeContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  }
+})
 
 export default RecipeView;
