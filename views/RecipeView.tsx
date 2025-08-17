@@ -1,4 +1,5 @@
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedView from "@/components/ThemedView";
@@ -6,6 +7,7 @@ import ThemedText from "@/components/ThemedText";
 import IngredientsList from "@/components/IngredientsList";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RecipesStackParamList } from "@/app/recipes"
+import { Colours } from "@/constants/Globals";
 
 type Recipe = {
   id: number;
@@ -20,6 +22,7 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
   const { recipeId } = route.params;
   const db = useDatabase();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -28,7 +31,12 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
   const focusUnsub = navigation.addListener("focus", () => {
     parentNav?.setOptions({
     headerRight: () => (
-            <ThemedText>hello</ThemedText>
+        <TouchableOpacity
+            onPress={() => setEditMode(prev => !prev)}
+            style={ styles.circle }
+        >
+            <Ionicons name="pencil-outline" size={22} color={Colours.primary} />
+        </TouchableOpacity>
         ),
         });
     });
@@ -75,7 +83,7 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
         <ScrollView>
             <View style={ styles.recipeContainer }>
                 <ThemedText title={true}>{recipe.name}</ThemedText>
-                <IngredientsList recipeId={recipe.id} />
+                <IngredientsList recipeId={recipe.id} editMode={editMode}/>
                 <ThemedText>{recipe.instructions}</ThemedText>
             </View>
         </ScrollView>
@@ -89,6 +97,15 @@ const styles = StyleSheet.create({
   recipeContainer: {
     paddingHorizontal: 10,
     paddingVertical: 20,
+  },
+  circle: {
+    width: 34,
+    height: 34,
+    borderRadius: 20,
+    marginRight: 24,
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })
 

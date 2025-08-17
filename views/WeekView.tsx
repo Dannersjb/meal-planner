@@ -90,7 +90,7 @@ const WeekView: React.FC<WeekViewProps> = ({ route, navigation }) => {
           >
           <View key={weekIndex} style={styles.weekContainer}>
               <View style={styles.weekHeader}>
-                <ThemedText style={[styles.weekTitle, { fontFamily: Colours.fontFamilyBold }]}>
+                <ThemedText title={true}>
                   Week {weekIndex + 1} <ThemedText style={styles.ordinal}> {weekRange ? ` ${weekRange}` : ""}</ThemedText>
                 </ThemedText>
                 <Ionicons
@@ -121,9 +121,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  weekTitle: {
-    fontSize: 24,
   },
   mealContent: {
     borderRadius: 8,

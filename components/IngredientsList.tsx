@@ -19,6 +19,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 
 type IngredientsListProps = React.PropsWithChildren<{
   recipeId: number | null;
+  editMode: boolean;
   style?: StyleProp<TextStyle>;
 }>;
 
@@ -29,7 +30,7 @@ type Ingredient = {
   unit: string;
 };
 
-const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId }) => {
+const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, editMode }) => {
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -115,16 +116,18 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId }) =>
         )}
         rightOpenValue={-75}
       />
-      <Pressable
-        style={[
-          styles.addButton,
-          { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
-        ]}
-        onPress={() => setIngredientModalVisible(true)}
-      >
-        <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Ingredient</ThemedText>
-        <Ionicons name="add-circle" size={42} color={Colours.primary} />
-      </Pressable>
+      { editMode && (
+        <Pressable
+          style={[
+            styles.addButton,
+            { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
+          ]}
+          onPress={() => setIngredientModalVisible(true)}
+        >
+          <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Ingredient</ThemedText>
+          <Ionicons name="add-circle" size={42} color={Colours.primary} />
+        </Pressable>
+      )}
 
       <Modal
         visible={ingredientModalVisible}

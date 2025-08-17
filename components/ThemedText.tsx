@@ -15,7 +15,7 @@ const ThemedText: React.FC<ThemedTextProps> = ({ style, title, ...props }) => {
       style={[
         {
           fontFamily: title ?  Colours.fontFamilyBold : Colours.fontFamily,
-          fontSize: title ? 26 : 16,
+          fontSize: title ? 26 : 15,
           color: theme.textColour,
         },
         style,
