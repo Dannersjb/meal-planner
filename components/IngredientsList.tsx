@@ -102,8 +102,8 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
         ) : (
           <>
           {ingredientList.map((item) => (
-          <View style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
-            <ThemedText key={item.id} style={{ paddingVertical: 7, fontSize: 16}}>
+          <View key={item.id} style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
+            <ThemedText style={{ paddingVertical: 7, fontSize: 16}}>
                 {`${item.quantity}${item.unit} ${item.name}`}
             </ThemedText>
             { editMode && (

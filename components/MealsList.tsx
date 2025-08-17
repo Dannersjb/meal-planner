@@ -16,6 +16,7 @@ import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedText from "@/components/ThemedText";
 import ThemedOverlayView from "@/components/ThemedOverlayView";
 import AddMealForm from "@/components/forms/AddMealForm";
+import { useNavigation } from "expo-router";
 
 type MealsListProps = React.PropsWithChildren<{
   scheduledDate: string | null;
@@ -28,6 +29,8 @@ type Recipe = {
 };
 
 const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
+  const navigation = useNavigation<any>();
+ 
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -82,9 +85,19 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
     }
 
     return (
-      <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour, borderColor: theme.outlineColour }]}>
+      <Pressable
+        key={item.id}
+        style={[styles.ingredient, { backgroundColor: theme.backgroundColour, borderColor: theme.outlineColour }]}
+        onPress={() =>
+          navigation.navigate("recipes", {
+            screen: "RecipeView",
+            params: { recipeId: item.id },
+          })
+        }
+      >
         <ThemedText style={{ fontSize: 16, flexWrap: "wrap", textAlign: "center", }}>{item.name}</ThemedText>
-      </View>
+      </Pressable>
+        
     );
   };
 
