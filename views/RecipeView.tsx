@@ -1,4 +1,4 @@
-import { ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, View, StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDatabase } from "@/providers/DatabaseProvider";
@@ -19,6 +19,9 @@ type Recipe = {
 type RecipeViewProps = NativeStackScreenProps<RecipesStackParamList, "RecipeView">;
 
 const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
+    const colourScheme = useColorScheme();
+    const theme = Colours[colourScheme ?? "light"];
+
   const { recipeId } = route.params;
   const db = useDatabase();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -26,31 +29,31 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
 
 
   useEffect(() => {
-  const parentNav = navigation.getParent();
+    const parentNav = navigation.getParent();
 
-  const focusUnsub = navigation.addListener("focus", () => {
-    parentNav?.setOptions({
-    headerRight: () => (
-        <TouchableOpacity
-            onPress={() => setEditMode(prev => !prev)}
-            style={ styles.circle }
-        >
-            <Ionicons name="pencil-outline" size={22} color={Colours.primary} />
-        </TouchableOpacity>
-        ),
-        });
-    });
-
-    const blurUnsub = navigation.addListener("blur", () => {
+    const focusUnsub = navigation.addListener("focus", () => {
         parentNav?.setOptions({
-        headerRight: undefined, // clear when leaving this screen
+        headerRight: () => (
+            <TouchableOpacity
+                onPress={() => setEditMode(prev => !prev)}
+                style={ styles.circle }
+            >
+                <Ionicons name="pencil-outline" size={22} color={Colours.primary} />
+            </TouchableOpacity>
+            ),
+            });
         });
-    });
 
-    return () => {
-        focusUnsub();
-        blurUnsub();
-    };
+        const blurUnsub = navigation.addListener("blur", () => {
+            parentNav?.setOptions({
+            headerRight: undefined, // clear when leaving this screen
+            });
+        });
+
+        return () => {
+            focusUnsub();
+            blurUnsub();
+        };
     }, [navigation]);
 
     useEffect(() => {
@@ -61,6 +64,16 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
             console.error("Failed to fetch recipe:", error);
         }
     }, []);
+
+      useLayoutEffect(() => {
+        navigation.setOptions({
+          headerTintColor: Colours.primary,
+          headerBackTitle: "Recipes",
+          headerStyle: {
+            backgroundColor: theme.backgroundColour,
+          },
+        });
+      }, [navigation]);
 
   return (
     <ThemedView>

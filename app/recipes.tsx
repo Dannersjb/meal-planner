@@ -26,8 +26,8 @@ const RecipesScreen = () => {
         name="RecipeView"
         component={RecipeView}
         options={{
-          headerShown: true,
           title: "",
+          headerBackTitle: "",
         }}
       />
     </Stack.Navigator>
