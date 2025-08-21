@@ -40,7 +40,8 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
       const result = db.getAllSync<Instruction>(
         `SELECT id, description, item_order
           FROM recipe_instructions
-          WHERE recipe_id = ?;`,
+          WHERE recipe_id = ?
+          ORDER BY item_order ASC;`,
         [recipeId]
       );
       setInstructionList(result);
@@ -54,7 +55,8 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
       const result = db.getAllSync<Instruction>(
         `SELECT id, description, item_order
           FROM recipe_instructions
-          WHERE recipe_id = ?;`,
+          WHERE recipe_id = ?
+          ORDER BY item_order ASC;`,
         [recipeId]
       );
       setInstructionList(result);
@@ -63,14 +65,46 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
     }
   };
 
-  const deleteIngredient = (id: number) => {
+  const deleteInstruction = (id: number) => {
     try {
       db.runSync(`DELETE FROM recipe_instructions WHERE id = ?;`, [id]);
       refreshInstructionsList();
     } catch (error) {
-      console.error("Failed to delete ingredient:", error);
+      console.error("Failed to delete instruction:", error);
     }
   };
+
+  const moveItem = (index: number, direction: "up" | "down") => {
+  const targetIndex = direction === "up" ? index - 1 : index + 1;
+
+  // boundary check
+  if (targetIndex < 0 || targetIndex >= instructionList.length) return;
+
+  const currentItem = instructionList[index];
+  const targetItem = instructionList[targetIndex];
+
+  try {
+    db.runSync("BEGIN TRANSACTION;");
+
+    // swap item_order values
+    db.runSync(
+      `UPDATE recipe_instructions SET item_order = ? WHERE id = ?;`,
+      [targetItem.item_order, currentItem.id]
+    );
+
+    db.runSync(
+      `UPDATE recipe_instructions SET item_order = ? WHERE id = ?;`,
+      [currentItem.item_order, targetItem.id]
+    );
+
+    db.runSync("COMMIT;");
+
+    refreshInstructionsList(); // reload from DB
+  } catch (error) {
+    db.runSync("ROLLBACK;");
+    console.error("Failed to reorder instruction:", error);
+  }
+};
 
   return (
     <View
@@ -96,11 +130,19 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
             </ThemedText>
             <ThemedText style={{ flex: 1, flexShrink: 1, marginLeft: 7, paddingVertical: 10, textAlign: "left", fontSize: 16}}>{item.description}</ThemedText>
             { editMode && (
-              <Pressable
-                style={styles.deleteButtonContainer}
-                onPress={() => deleteIngredient(item.id)}>
-                  <Ionicons name="trash" size={22} color={Colours.danger} />
-              </Pressable>
+              <>
+                <Pressable
+                  style={styles.deleteButtonContainer}
+                  onPress={() => deleteInstruction(item.id)}>
+                    <Ionicons name="trash" size={24} color={Colours.danger} />
+                </Pressable>
+                <Pressable onPress={() => moveItem(index, "up")}>
+                  <Ionicons name="chevron-up"  size={24} color={Colours.danger} />
+                </Pressable>
+                <Pressable onPress={() => moveItem(index, "down")}>
+                    <Ionicons name="chevron-down" size={24} color={Colours.danger} />
+                </Pressable>
+              </>
             )}
           </View>
         ))}
@@ -164,9 +206,9 @@ const styles = StyleSheet.create({
   deleteButtonContainer: {
     paddingVertical: 10,
     flexShrink: 0,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",
-    width: 30,
   },
   deleteButton: {
     backgroundColor: Colours.danger,
