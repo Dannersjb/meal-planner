@@ -7,7 +7,6 @@ import {
   Pressable,
   Modal,
   TouchableWithoutFeedback,
-  FlatList,
 } from "react-native";
 import { Colours } from "@/constants/Globals";
 import React, { useEffect, useState } from "react";
@@ -16,7 +15,6 @@ import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedText from "@/components/ThemedText";
 import ThemedOverlayView from "@/components/ThemedOverlayView";
 import AddIngredientForm from "@/components/forms/AddIngredientForm";
-import { SwipeListView } from "react-native-swipe-list-view";
 
 type InstructionsListProps = React.PropsWithChildren<{
   recipeId: number | null;

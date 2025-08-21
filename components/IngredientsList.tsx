@@ -7,7 +7,6 @@ import {
   Pressable,
   Modal,
   TouchableWithoutFeedback,
-  FlatList,
 } from "react-native";
 import { Colours } from "@/constants/Globals";
 import React, { useEffect, useState } from "react";
@@ -16,7 +15,6 @@ import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedText from "@/components/ThemedText";
 import ThemedOverlayView from "@/components/ThemedOverlayView";
 import AddIngredientForm from "@/components/forms/AddIngredientForm";
-import { SwipeListView } from "react-native-swipe-list-view";
 
 type IngredientsListProps = React.PropsWithChildren<{
   recipeId: number | null;
@@ -35,7 +33,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
-  const [ingredientList, setRecipeList] = useState<Ingredient[]>([]);
+  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [ingredientModalVisible, setIngredientModalVisible] = useState(false);
 
   useEffect(() => {
@@ -47,7 +45,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
             WHERE recipe_ingredients.recipe_id = ?;`,
         [recipeId]
       );
-      setRecipeList(result);
+      setIngredientList(result);
     } catch (error) {
       console.error(`Failed to fetch recipe ingredients for recipe_id ${recipeId}: `, error);
     }
@@ -62,7 +60,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
             WHERE recipe_ingredients.recipe_id = ?;`,
         [recipeId]
       );
-      setRecipeList(result);
+      setIngredientList(result);
     } catch (error) {
       console.error(`Failed to fetch recipe ingredients for recipe_id ${recipeId}: `, error);
     }
