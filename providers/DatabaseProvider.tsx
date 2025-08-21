@@ -16,19 +16,16 @@ const initializeDatabase = () => {
           quantity INTEGER DEFAULT 1,
           is_checked BOOLEAN DEFAULT 0
         );
-
         CREATE TABLE IF NOT EXISTS ingredients (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT NULL UNIQUE
         );
-
         CREATE TABLE IF NOT EXISTS recipes (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT NULL UNIQUE,
-          instructions TEXT,
+          duration INTEGER,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP
         );
-
         CREATE TABLE IF NOT EXISTS recipe_ingredients (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           recipe_id INTEGER NOT NULL,
@@ -38,14 +35,20 @@ const initializeDatabase = () => {
           FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
           FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
         );
-
+        CREATE TABLE IF NOT EXISTS recipe_instructions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          recipe_id INTEGER NOT NULL,
+          description TEXT NOT NULL,
+          item_order INTEGER NOT NULL,
+          FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+        );
         CREATE TABLE IF NOT EXISTS meal_plan (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           recipe_id INTEGER NOT NULL,
           scheduled_date TEXT NOT NULL,
           meal_type TEXT,
           FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
-        );
+        )
       `);
     console.log("Database initialized successfully.");
   } catch (error) {

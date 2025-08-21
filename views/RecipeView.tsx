@@ -90,7 +90,7 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
             <View style={ styles.recipeContainer }>
                 <ThemedText title={true} style={{ marginBottom: 20, marginTop: 10}}>{recipe.name}</ThemedText>
                 <IngredientsList recipeId={recipe.id} editMode={editMode}/>
-                <ThemedText>{recipe.instructions}</ThemedText>
+                <InstructionsList />
             </View>
         </ScrollView>
       )}

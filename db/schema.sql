@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS ingredients (
 CREATE TABLE IF NOT EXISTS recipes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
-  instructions TEXT,
+  duration INTEGER,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS recipe_ingredients (
@@ -23,6 +23,13 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
   unit TEXT,
   FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
   FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS recipe_instructions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  recipe_id INTEGER NOT NULL,
+  description TEXT NOT NULL,
+  item_order INTEGER NOT NULL,
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS meal_plan (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
