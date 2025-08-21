@@ -75,14 +75,6 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
     }
   };
 
-  // const renderIngredientContent = ({ item }: { item: Ingredient }) => (
-  //   <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
-  //     <ThemedText
-  //       style={{ fontSize: 18 }}
-  //     >{`${item.quantity}${item.unit} ${item.name}`}</ThemedText>
-  //   </View>
-  // );
-
   return (
     <View
       style={[
@@ -101,7 +93,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
           <>
           {ingredientList.map((item) => (
           <View key={item.id} style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
-            <ThemedText style={{ paddingVertical: 7, fontSize: 16}}>
+            <ThemedText style={{ paddingVertical: 10, fontSize: 16}}>
                 {`${item.quantity}${item.unit} ${item.name}`}
             </ThemedText>
             { editMode && (
@@ -117,25 +109,6 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
         )
         }
         
-      {/* <FlatList
-        data={ingredientList}
-        keyExtractor={(item) => `${item.id}`}
-        scrollEnabled={false}
-        renderItem={({ item }) => (
-            <ThemedText style={{ paddingVertical: 7, fontSize: 16, borderBottomWidth: 1, borderColor: theme.borderColour }}>
-              {`${item.quantity}${item.unit} ${item.name}`}
-            </ThemedText>
-        )}
-        renderHiddenItem={({ item }) => (
-          <Pressable
-            style={styles.deleteButtonContainer}
-            onPress={() => deleteIngredient(item.id)}
-          >
-            <ThemedText style={styles.deleteButton}>Delete</ThemedText>
-          </Pressable>
-        )}
-        rightOpenValue={-75}
-      /> */}
       </View>
       { editMode && (
         <Pressable
@@ -187,7 +160,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
-    marginVertical: 5,
+    marginVertical: 10,
     fontWeight: "bold",
   },
   deleteButtonContainer: {

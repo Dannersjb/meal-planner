@@ -78,21 +78,23 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
         {
           backgroundColor: Colours.secondary,
           padding: 20,
+          marginTop: 20
         },
         style,
       ]}
     >
       <ThemedText style={{ fontSize: 21, marginBottom: 10 }}>Method</ThemedText>
-      <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
+      <View style={[styles.instruction, { backgroundColor: theme.backgroundColour }]}>
         { instructionList.length === 0 ? (
           <ThemedText>No Instructions.</ThemedText>
         ) : (
           <>
           {instructionList.map((item, index) => (
-          <View key={item.id} style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
-            <ThemedText style={{ paddingVertical: 7, fontSize: 16}}>
-                {`${index + 1}. ${item.description}`}
+          <View key={item.id} style={{ flexDirection: "row", alignItems: "flex-start", borderBottomWidth: 1, borderColor: theme.borderColour }}>
+            <ThemedText style={{ paddingVertical: 10, fontFamily: Colours.fontFamilyBold, fontSize: 16}}>
+                {`${index + 1}.`}
             </ThemedText>
+            <ThemedText style={{ flex: 1, flexShrink: 1, marginLeft: 7, paddingVertical: 10, textAlign: "left", fontSize: 16}}>{item.description}</ThemedText>
             { editMode && (
               <Pressable
                 style={styles.deleteButtonContainer}
@@ -152,17 +154,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  ingredient: {
+  instruction: {
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
-    marginVertical: 5,
+    marginVertical: 10,
     fontWeight: "bold",
   },
   deleteButtonContainer: {
+    paddingVertical: 10,
+    flexShrink: 0,
     justifyContent: "center",
     alignItems: "flex-end",
-    flex: 1,
+    width: 30,
   },
   deleteButton: {
     backgroundColor: Colours.danger,
