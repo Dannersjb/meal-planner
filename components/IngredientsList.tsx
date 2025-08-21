@@ -100,7 +100,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
                   <Pressable
                     style={styles.deleteButtonContainer}
                     onPress={() => deleteIngredient(item.id)}>
-                      <Ionicons name="trash" size={22} color={Colours.danger} />
+                      <Ionicons name="trash" size={24} color={Colours.danger} />
                   </Pressable>
             )}
           </View>

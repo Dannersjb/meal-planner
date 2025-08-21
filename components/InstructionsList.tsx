@@ -130,19 +130,17 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
             </ThemedText>
             <ThemedText style={{ flex: 1, flexShrink: 1, marginLeft: 7, paddingVertical: 10, textAlign: "left", fontSize: 16}}>{item.description}</ThemedText>
             { editMode && (
-              <>
-                <Pressable
-                  style={styles.deleteButtonContainer}
-                  onPress={() => deleteInstruction(item.id)}>
-                    <Ionicons name="trash" size={24} color={Colours.danger} />
+              <View style={styles.editButtonsContainer}>
+                <Pressable onPress={() => deleteInstruction(item.id)}>
+                    <Ionicons style={styles.button} name="trash" size={24} color={Colours.danger} />
                 </Pressable>
                 <Pressable onPress={() => moveItem(index, "up")}>
-                  <Ionicons name="chevron-up"  size={24} color={Colours.danger} />
+                  <Ionicons style={styles.button} name="chevron-up"  size={24} color={Colours.primary} />
                 </Pressable>
                 <Pressable onPress={() => moveItem(index, "down")}>
-                    <Ionicons name="chevron-down" size={24} color={Colours.danger} />
+                    <Ionicons name="chevron-down" size={24} color={Colours.primary} />
                 </Pressable>
-              </>
+              </View>
             )}
           </View>
         ))}
@@ -203,12 +201,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: "bold",
   },
-  deleteButtonContainer: {
+  editButtonsContainer: {
+    flexDirection: "row",
     paddingVertical: 10,
     flexShrink: 0,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-end",
+  },
+  button: {
+    marginRight: 7,
   },
   deleteButton: {
     backgroundColor: Colours.danger,
