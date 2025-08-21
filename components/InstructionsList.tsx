@@ -25,50 +25,48 @@ type InstructionsListProps = React.PropsWithChildren<{
 type Instruction = {
   id: number;
   description: string;
-  order: number;
+  item_order: number;
 };
 
 const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, editMode }) => {
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
-  const [ingredientList, setRecipeList] = useState<Instruction[]>([]);
-  const [ingredientModalVisible, setIngredientModalVisible] = useState(false);
+  const [instructionList, setInstructionList] = useState<Instruction[]>([]);
+  const [instructionModalVisible, setInstructionModalVisible] = useState(false);
 
   useEffect(() => {
     try {
       const result = db.getAllSync<Instruction>(
-        `SELECT recipe_ingredients.id, ingredients.name, recipe_ingredients.quantity, recipe_ingredients.unit
-            FROM recipe_ingredients
-            JOIN ingredients ON recipe_ingredients.ingredient_id = ingredients.id
-            WHERE recipe_ingredients.recipe_id = ?;`,
+        `SELECT id, description, item_order
+          FROM recipe_instructions
+          WHERE recipe_id = ?;`,
         [recipeId]
       );
-      setRecipeList(result);
+      setInstructionList(result);
     } catch (error) {
-      console.error(`Failed to fetch recipe ingredients for recipe_id ${recipeId}: `, error);
+      console.error(`Failed to fetch recipe instructions for recipe_id ${recipeId}: `, error);
     }
   }, []);
 
-  const refreshIngredientsList = () => {
+  const refreshInstructionsList = () => {
     try {
       const result = db.getAllSync<Instruction>(
-        `SELECT recipe_ingredients.id, ingredients.name, recipe_ingredients.quantity, recipe_ingredients.unit
-            FROM recipe_ingredients
-            JOIN ingredients ON recipe_ingredients.ingredient_id = ingredients.id
-            WHERE recipe_ingredients.recipe_id = ?;`,
+        `SELECT id, description, item_order
+          FROM recipe_instructions
+          WHERE recipe_id = ?;`,
         [recipeId]
       );
-      setRecipeList(result);
+      setInstructionList(result);
     } catch (error) {
-      console.error(`Failed to fetch recipe ingredients for recipe_id ${recipeId}: `, error);
+      console.error(`Failed to fetch recipe instructions for recipe_id ${recipeId}: `, error);
     }
   };
 
   const deleteIngredient = (id: number) => {
     try {
-      db.runSync(`DELETE FROM recipe_ingredients WHERE id = ?;`, [id]);
-      refreshIngredientsList();
+      db.runSync(`DELETE FROM recipe_instructions WHERE id = ?;`, [id]);
+      refreshInstructionsList();
     } catch (error) {
       console.error("Failed to delete ingredient:", error);
     }
@@ -94,14 +92,14 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
     >
       <ThemedText style={{ fontSize: 21, marginBottom: 10 }}>Method</ThemedText>
       <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
-        { ingredientList.length === 0 ? (
+        { instructionList.length === 0 ? (
           <ThemedText>No Instructions.</ThemedText>
         ) : (
           <>
-          {ingredientList.map((item) => (
+          {instructionList.map((item, index) => (
           <View key={item.id} style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
             <ThemedText style={{ paddingVertical: 7, fontSize: 16}}>
-                {`${item.quantity}${item.unit} ${item.name}`}
+                {`${index}. ${item.description}`}
             </ThemedText>
             { editMode && (
                   <Pressable
@@ -115,26 +113,6 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
         </>
         )
         }
-        
-      {/* <FlatList
-        data={ingredientList}
-        keyExtractor={(item) => `${item.id}`}
-        scrollEnabled={false}
-        renderItem={({ item }) => (
-            <ThemedText style={{ paddingVertical: 7, fontSize: 16, borderBottomWidth: 1, borderColor: theme.borderColour }}>
-              {`${item.quantity}${item.unit} ${item.name}`}
-            </ThemedText>
-        )}
-        renderHiddenItem={({ item }) => (
-          <Pressable
-            style={styles.deleteButtonContainer}
-            onPress={() => deleteIngredient(item.id)}
-          >
-            <ThemedText style={styles.deleteButton}>Delete</ThemedText>
-          </Pressable>
-        )}
-        rightOpenValue={-75}
-      /> */}
       </View>
       { editMode && (
         <Pressable
@@ -142,25 +120,25 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
             styles.addButton,
             { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
           ]}
-          onPress={() => setIngredientModalVisible(true)}
+          onPress={() => setInstructionModalVisible(true)}
         >
-          <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Ingredient</ThemedText>
+          <ThemedText style={{ fontSize: 18, paddingLeft: 5 }}>Add Instruction</ThemedText>
           <Ionicons name="add-circle" size={42} color={Colours.primary} />
         </Pressable>
       )}
 
       <Modal
-        visible={ingredientModalVisible}
+        visible={instructionModalVisible}
         animationType="fade"
         transparent
-        onRequestClose={() => setIngredientModalVisible(false)}
+        onRequestClose={() => setInstructionModalVisible(false)}
       >
-        <TouchableWithoutFeedback onPress={() => setIngredientModalVisible(false)}>
+        <TouchableWithoutFeedback onPress={() => setInstructionModalVisible(false)}>
           <ThemedOverlayView>
             <AddIngredientForm
               onItemAdded={() => {
-                setIngredientModalVisible(false); // close modal
-                refreshIngredientsList(); // update the list render
+                setInstructionModalVisible(false); // close modal
+                refreshInstructionsList(); // update the list render
               }}
               recipeId={recipeId}
             />

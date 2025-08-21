@@ -8,6 +8,7 @@ import IngredientsList from "@/components/IngredientsList";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RecipesStackParamList } from "@/app/recipes"
 import { Colours } from "@/constants/Globals";
+import InstructionsList from "@/components/InstructionsList";
 
 type Recipe = {
   id: number;
@@ -90,7 +91,7 @@ const RecipeView : React.FC<RecipeViewProps> = ({ route, navigation }) => {
             <View style={ styles.recipeContainer }>
                 <ThemedText title={true} style={{ marginBottom: 20, marginTop: 10}}>{recipe.name}</ThemedText>
                 <IngredientsList recipeId={recipe.id} editMode={editMode}/>
-                <InstructionsList />
+                <InstructionsList recipeId={recipe.id} editMode={editMode}/>
             </View>
         </ScrollView>
       )}
