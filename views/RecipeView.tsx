@@ -5,10 +5,10 @@ import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedView from "@/components/ThemedView";
 import ThemedText from "@/components/ThemedText";
 import IngredientsList from "@/components/IngredientsList";
+import InstructionsList from "@/components/InstructionsList";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RecipesStackParamList } from "@/app/recipes"
 import { Colours } from "@/constants/Globals";
-import InstructionsList from "@/components/InstructionsList";
 
 type Recipe = {
   id: number;

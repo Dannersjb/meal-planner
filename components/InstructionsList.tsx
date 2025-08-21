@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDatabase } from "@/providers/DatabaseProvider";
 import ThemedText from "@/components/ThemedText";
 import ThemedOverlayView from "@/components/ThemedOverlayView";
-import AddIngredientForm from "@/components/forms/AddIngredientForm";
+import AddInstructionForm from "./forms/AddInstructionForm";
 
 type InstructionsListProps = React.PropsWithChildren<{
   recipeId: number | null;
@@ -135,7 +135,7 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
       >
         <TouchableWithoutFeedback onPress={() => setInstructionModalVisible(false)}>
           <ThemedOverlayView>
-            <AddIngredientForm
+            <AddInstructionForm
               onItemAdded={() => {
                 setInstructionModalVisible(false); // close modal
                 refreshInstructionsList(); // update the list render
