@@ -91,7 +91,7 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
           {instructionList.map((item, index) => (
           <View key={item.id} style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
             <ThemedText style={{ paddingVertical: 7, fontSize: 16}}>
-                {`${index}. ${item.description}`}
+                {`${index + 1}. ${item.description}`}
             </ThemedText>
             { editMode && (
               <Pressable
