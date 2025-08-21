@@ -72,14 +72,6 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
     }
   };
 
-  // const renderIngredientContent = ({ item }: { item: Ingredient }) => (
-  //   <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
-  //     <ThemedText
-  //       style={{ fontSize: 18 }}
-  //     >{`${item.quantity}${item.unit} ${item.name}`}</ThemedText>
-  //   </View>
-  // );
-
   return (
     <View
       style={[
@@ -102,11 +94,11 @@ const InstructionsList: React.FC<InstructionsListProps> = ({ style, recipeId, ed
                 {`${index}. ${item.description}`}
             </ThemedText>
             { editMode && (
-                  <Pressable
-                    style={styles.deleteButtonContainer}
-                    onPress={() => deleteIngredient(item.id)}>
-                      <Ionicons name="trash" size={22} color={Colours.danger} />
-                  </Pressable>
+              <Pressable
+                style={styles.deleteButtonContainer}
+                onPress={() => deleteIngredient(item.id)}>
+                  <Ionicons name="trash" size={22} color={Colours.danger} />
+              </Pressable>
             )}
           </View>
         ))}

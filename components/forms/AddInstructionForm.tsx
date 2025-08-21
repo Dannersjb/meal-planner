@@ -22,7 +22,14 @@ const AddInstructionForm: React.FC<ThemedViewProps> = ({ onItemAdded, recipeId }
     }
 
     try {
-      db.runSync("INSERT OR IGNORE INTO recipe_instructions (description) VALUES (?);", description);
+      // Get the highest current order value to append the new item to the end
+      const result = db.getFirstSync<{ maxOrder: number }>(
+        "SELECT MAX(item_order) as maxOrder FROM recipe_instructions;"
+      );
+      const newOrder = (result?.maxOrder ?? 0) + 1;
+
+      db.runSync("INSERT OR IGNORE INTO recipe_instructions (description, recipe_id, item_order) VALUES (?, ?, ?);", 
+        [description.trim(), recipeId, newOrder]);
   
       setDescription(""); // Clear input
       onItemAdded?.(); // Trigger callback to update list and close modal
