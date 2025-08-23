@@ -30,6 +30,7 @@ type Ingredient = {
 };
 
 const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, editMode }) => {
+  const GRAMS_PER_OUNCE = 28.3495;
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
@@ -51,6 +52,27 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
       console.error(`Failed to fetch recipe ingredients for recipe_id ${recipeId}: `, error);
     }
   }, []);
+
+  function formatQuantity(item: Ingredient, isMetric: boolean) {
+    const { quantity, unit } = item;
+
+    if (isMetric) {
+      if (unit === "g") {
+        return `${quantity}g`;
+      } else if (unit === "oz") {
+        const grams = (quantity * GRAMS_PER_OUNCE).toFixed(1);
+        return `${grams}g`;
+      }
+    } else {
+      if (unit === "oz") {
+        return `${quantity} oz`;
+      } else if (unit === "g") {
+        const ounces = (quantity / GRAMS_PER_OUNCE).toFixed(2);
+        return `${ounces}oz`;
+      }
+    }
+  return `${quantity}${unit}`;
+}
 
   const refreshIngredientsList = () => {
     try {
@@ -88,14 +110,11 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
     >
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center",  marginBottom: 10 }}>
         <ThemedText style={{ fontSize: 21 }}>Ingredients</ThemedText>
-        <View style={{ flexDirection: "row",  alignItems: "center" }}>
-          <ThemedText style={{ fontSize: 12 }}>Metric</ThemedText>
-          <Ionicons
-            style={{ marginHorizontal: 10, padding: 0, borderRadius: 20, fontSize: 36, backgroundColor: "#FFF" }}
-            color={Colours.primary} 
-            name="toggle" />
-          <ThemedText style={{ fontSize: 12 }}>Cups</ThemedText>
-        </View>
+        <Pressable style={{ flexDirection: "row",  alignItems: "center" }}
+          onPress={() => setIsMetric(prev => !prev)}>
+          <ThemedText style={[ isMetric ? styles.highlight : styles.notHighlit, { borderTopLeftRadius: 10, borderBottomLeftRadius: 10} ]}>Grams</ThemedText>
+          <ThemedText style={[ !isMetric ? styles.highlight : styles.notHighlit, { borderTopRightRadius: 10, borderBottomRightRadius: 10} ]}>Ounces</ThemedText>
+        </Pressable>
       </View>
       <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
         { ingredientList.length === 0 ? (
@@ -105,7 +124,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
           {ingredientList.map((item) => (
           <View key={item.id} style={{ flexDirection: "row", alignItems: "center", borderBottomWidth: 1, borderColor: theme.borderColour }}>
             <ThemedText style={{ paddingVertical: 10, fontSize: 16}}>
-                {`${item.quantity}${item.unit} ${item.name}`}
+                {`${formatQuantity(item, isMetric)}  ${item.name}`}
             </ThemedText>
             { editMode && (
                   <Pressable
@@ -157,6 +176,17 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
 };
 
 const styles = StyleSheet.create({
+  notHighlit: {
+    fontSize: 13,
+    backgroundColor: "#fff",
+    padding: 12
+  },
+  highlight: {
+    fontSize: 13,
+    backgroundColor: Colours.primary,
+    color: "#fff",
+    padding: 12
+  },
   addButton: {
     paddingVertical: 10,
     paddingHorizontal: 10,
