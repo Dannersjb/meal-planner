@@ -33,6 +33,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
   const db = useDatabase();
   const colourScheme = useColorScheme();
   const theme = Colours[colourScheme ?? "light"];
+  const [isMetric, setIsMetric] = useState<boolean>(true);
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [ingredientModalVisible, setIngredientModalVisible] = useState(false);
 
@@ -85,7 +86,17 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ style, recipeId, edit
         style,
       ]}
     >
-      <ThemedText style={{ fontSize: 21, marginBottom: 10 }}>Ingredients</ThemedText>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center",  marginBottom: 10 }}>
+        <ThemedText style={{ fontSize: 21 }}>Ingredients</ThemedText>
+        <View style={{ flexDirection: "row",  alignItems: "center" }}>
+          <ThemedText style={{ fontSize: 12 }}>Metric</ThemedText>
+          <Ionicons
+            style={{ marginHorizontal: 10, padding: 0, borderRadius: 20, fontSize: 36, backgroundColor: "#FFF" }}
+            color={Colours.primary} 
+            name="toggle" />
+          <ThemedText style={{ fontSize: 12 }}>Cups</ThemedText>
+        </View>
+      </View>
       <View style={[styles.ingredient, { backgroundColor: theme.backgroundColour }]}>
         { ingredientList.length === 0 ? (
           <ThemedText>No Ingredients.</ThemedText>
