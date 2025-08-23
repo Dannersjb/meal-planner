@@ -1,10 +1,10 @@
-import { Text, TextStyle, StyleProp, useColorScheme } from "react-native";
+import { Text, TextStyle, StyleProp, useColorScheme, TextProps } from "react-native";
 import { Colours } from "@/constants/Globals";
 
-type ThemedTextProps = React.PropsWithChildren<{
+type ThemedTextProps = TextProps & {
   style?: StyleProp<TextStyle>;
   title?: boolean;
-}>;
+};
 
 const ThemedText: React.FC<ThemedTextProps> = ({ style, title, ...props }) => {
   const colourScheme = useColorScheme();
