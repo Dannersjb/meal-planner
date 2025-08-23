@@ -3,6 +3,13 @@ import { render, fireEvent, act } from "@testing-library/react-native";
 import ShopListView from "@/views/ShopListView";
 import { useDatabase } from "@/providers/DatabaseProvider";
 
+jest.mock("@react-navigation/native", () => ({
+  ...jest.requireActual("@react-navigation/native"),
+  useFocusEffect: jest.fn(), 
+}));
+
+jest.mock("@/providers/DatabaseProvider");
+
 describe("<ShopListView>", () => {
   const mockGetAllSync = jest.fn();
   const mockRunSync = jest.fn();

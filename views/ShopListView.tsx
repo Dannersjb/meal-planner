@@ -10,7 +10,8 @@ import {
   FlatList,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useFocusEffect, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useDatabase } from "@/providers/DatabaseProvider";
