@@ -8,6 +8,7 @@ import {
   Pressable,
   Modal,
   TouchableWithoutFeedback,
+  ViewProps,
 } from "react-native";
 import { Colours } from "@/constants/Globals";
 import React, { useEffect, useState } from "react";
@@ -18,10 +19,10 @@ import ThemedOverlayView from "@/components/ThemedOverlayView";
 import AddMealForm from "@/components/forms/AddMealForm";
 import { useNavigation } from "expo-router";
 
-type MealsListProps = React.PropsWithChildren<{
+type MealsListProps = ViewProps & {
   scheduledDate: string | null;
   style?: StyleProp<TextStyle>;
-}>;
+};
 
 type Recipe = {
   id: number | "add";
@@ -73,6 +74,7 @@ const MealsList: React.FC<MealsListProps> = ({ style, scheduledDate }) => {
     if (item.id === "add") {
       return (
         <Pressable
+          testID="add-meal-button"
           style={[
             styles.addButton,
             { backgroundColor: theme.backgroundColour, borderColor: Colours.primary },
