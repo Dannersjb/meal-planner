@@ -1,6 +1,7 @@
 # CS50 Final Project - Meal Planner
 
 #### Video Demo: https://youtu.be/lIeH19e5ik4?si=3EpXr3CKUBPe4jhL
+
 #### Description:
 
 This **React Native** mobile application is a meal planner, where a user can:
@@ -13,6 +14,11 @@ This **React Native** mobile application is a meal planner, where a user can:
 The goal was to build on my existing React knowledge and explore mobile development using React Native — a JavaScript-based framework for developing native apps on both Android and iOS.
 
 React Native components mirror the structure of traditional React components but target native UI elements instead of web-based HTML/CSS.
+
+![Calendar](./assets/calendar.svg)
+![Chef](./assets/chefhat.svg)
+![List](./assets/list.svg)
+![Cog](./assets/cog.svg)
 
 Additionally, I took this project as an opportunity to practice graphic design skills. I designed UI layouts in **Figma**, created custom SVG icons using **Inkscape**, and incorporated them into the app.
 
@@ -30,7 +36,7 @@ Additionally, I took this project as an opportunity to practice graphic design s
 #### Designs
 
 - I created premade visual designs to help me to better understand what I was making throughout development
-[View Design in Figma](https://www.figma.com/design/uY7rGwIt6CKME2WxiUSW1l/meal-planner?node-id=0-1&t=oF2no26HrTY0qVdF-1)
+  [View Design in Figma](https://www.figma.com/design/uY7rGwIt6CKME2WxiUSW1l/meal-planner?node-id=0-1&t=oF2no26HrTY0qVdF-1)
 
 #### Database:
 
@@ -75,4 +81,5 @@ See [`db/schema.sql`](db/schema.sql) for the schema or [`db/design.md`](db/desig
 I used ChatGPT to help me find icons quicker, generate my SVGs into native components, search for functions in libraries, confirm database calls were correct and general debugging.
 
 ## Publish Command
-```eas update --branch main --message "First publish"```
+
+`eas update --branch main --message "First publish"`
